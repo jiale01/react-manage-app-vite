@@ -1,0 +1,172 @@
+// Layout 全局样式
+.layout-container {
+  min-height: 100vh;
+}
+
+// Sider 样式优化
+.ant-layout-sider {
+  transition: all 0.2s;
+
+  .ant-layout-sider-children {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// Logo 区域样式
+.logo-container {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: #002140;
+  transition: all 0.3s;
+
+  .logo-img {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    transition: all 0.3s;
+  }
+
+  .logo-text {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 1;
+    transition: all 0.3s;
+  }
+}
+
+// 菜单样式优化
+.custom-menu {
+  flex: 1;
+  border-right: 0;
+  background: #001529 !important;
+
+  .ant-menu-item,
+  .ant-menu-submenu-title {
+    transition: all 0.3s;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .ant-menu-item-selected {
+    background-color: #1890ff !important;
+  }
+}
+
+// Header 样式优化
+.header-container {
+  padding: 0 24px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: all 0.3s;
+}
+
+// 搜索框样式
+.search-box {
+  display: flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: #f5f5f5;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    background: #e8e8e8;
+  }
+
+  .search-icon {
+    color: #999;
+    margin-right: 8px;
+  }
+
+  .search-text {
+    color: #999;
+    font-size: 14px;
+  }
+}
+
+// 通知图标样式
+.notification-badge {
+  .anticon {
+    font-size: 18px;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      color: #1890ff;
+    }
+  }
+}
+
+// 用户信息样式
+.user-info {
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  .user-avatar {
+    background-color: #1890ff;
+  }
+
+  .user-name {
+    color: #333;
+    font-size: 14px;
+  }
+}
+
+// Breadcrumb 样式优化
+.breadcrumb-container {
+  padding: 12px 24px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+
+  .ant-breadcrumb-link {
+    transition: all 0.3s;
+
+    &:hover {
+      color: #1890ff;
+    }
+  }
+}
+
+// Content 样式优化
+.content-container {
+  margin: 24px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 4px;
+  min-height: 280px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  transition: all 0.3s;
+}
+
+// 响应式适配
+@media (max-width: 768px) {
+  .logo-text {
+    display: none;
+  }
+
+  .content-container {
+    margin: 12px;
+    padding: 12px;
+  }
+}
