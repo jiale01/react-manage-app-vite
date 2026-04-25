@@ -1,8 +1,5 @@
 import { Menu } from 'antd'
 import {
-  HomeOutlined,
-  UserOutlined,
-  SettingOutlined,
   DashboardOutlined,
   FileTextOutlined,
 } from '@ant-design/icons'
@@ -18,30 +15,24 @@ const Sidebar = () => {
       icon: <DashboardOutlined />,
       label: '仪表盘',
     },
+    // 博客文章管理
     {
-      key: '/user',
-      icon: <UserOutlined />,
-      label: '用户管理',
+      key: '/article',
+      icon: <FileTextOutlined />,
+      label: '文章管理',
       children: [
         {
-          key: '/user/list',
-          label: '用户列表',
+          key: '/article/add',
+          icon: <FileTextOutlined />,
+          label: '创建文章',
         },
         {
-          key: '/user/role',
-          label: '角色管理',
+          key: '/article/list',
+          icon: <FileTextOutlined />,
+          label: '文章列表',
         },
-      ],
-    },
-    {
-      key: '/content',
-      icon: <FileTextOutlined />,
-      label: '内容管理',
-    },
-    {
-      key: '/settings',
-      icon: <SettingOutlined />,
-      label: '系统设置',
+
+      ]
     },
   ]
 

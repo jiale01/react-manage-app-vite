@@ -2,6 +2,7 @@ import Layout from "@/pages/Layout";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Dashboard from "@/pages/Dashboard";
+import ArticleCreate from "@/pages/Article/Create";
 import { createBrowserRouter, type RouteObject } from "react-router-dom";
 import { AuthRoute } from "@/components/AuthRoute";
 
@@ -22,20 +23,12 @@ const routes: RouteObject[] = [
         element: <Dashboard />,
       },
       {
-        path: "user/list",
-        element: <div>用户列表页面</div>,
+        path: "/article/list",
+        element: <div>文章列表</div>,
       },
       {
-        path: "user/role",
-        element: <div>角色管理页面</div>,
-      },
-      {
-        path: "content",
-        element: <div>内容管理页面</div>,
-      },
-      {
-        path: "settings",
-        element: <div>系统设置页面</div>,
+        path: "/article/add",
+        element: <ArticleCreate />,
       },
     ],
   },
