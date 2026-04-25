@@ -1,5 +1,5 @@
 const TOKEN_KEY = 'token_key'
-const cacheToken = (token) => {
+const cacheToken = (token: string) => {
   localStorage.setItem(TOKEN_KEY, token)
 }
 
@@ -8,7 +8,6 @@ const getToken = () => {
 }
 
 const removeToken = () => {
-  // TODO redux不删？
   localStorage.removeItem(TOKEN_KEY)
 }
 
