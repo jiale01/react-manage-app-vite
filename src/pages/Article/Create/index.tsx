@@ -1,6 +1,6 @@
 import { Form, Input, Select, Button, Card, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import RichTextEditor from './components/RichTextEditor';
+import RichTextEditor from '@/components/RichTextEditor';
 import { createArticle } from '@/api/article';
 
 const { TextArea } = Input;

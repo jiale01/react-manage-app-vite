@@ -3,6 +3,7 @@ import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Dashboard from "@/pages/Dashboard";
 import ArticleCreate from "@/pages/Article/Create";
+import ArticleList from "@/pages/Article/List";
 import { createBrowserRouter, type RouteObject } from "react-router-dom";
 import { AuthRoute } from "@/components/AuthRoute";
 
@@ -24,10 +25,10 @@ const routes: RouteObject[] = [
       },
       {
         path: "/article/list",
-        element: <div>文章列表</div>,
+        element: <ArticleList />,
       },
       {
-        path: "/article/add",
+        path: "/article/create",
         element: <ArticleCreate />,
       },
     ],

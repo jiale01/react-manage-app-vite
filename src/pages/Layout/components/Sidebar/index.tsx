@@ -22,7 +22,7 @@ const Sidebar = () => {
       label: '文章管理',
       children: [
         {
-          key: '/article/add',
+          key: '/article/create',
           icon: <FileTextOutlined />,
           label: '创建文章',
         },
