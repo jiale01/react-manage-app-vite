@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Table, Button, Space, Modal, Form, Input, Select, message, Tag, Popconfirm } from 'antd';
+import { Table, Button, Space, Modal, Form, Input, Select, message, Tag, Popconfirm, Spin } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { EditOutlined, DeleteOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
@@ -31,6 +31,7 @@ const ArticleList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<ArticleItem | null>(null);
   const [form] = Form.useForm();
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   // 文章分类选项
   const categories = [
@@ -121,6 +122,7 @@ const ArticleList = () => {
   // 提交编辑
   const handleUpdate = async (values: ArticleData) => {
     if (!editingArticle) return;
+    setSubmitLoading(true);
     try {
       await updateArticle(editingArticle.id, values);
       message.success('更新成功');
@@ -128,6 +130,8 @@ const ArticleList = () => {
       fetchArticleList();
     } catch (error) {
       message.error('更新文章失败');
+    } finally {
+      setSubmitLoading(false);
     }
   };
 
@@ -279,63 +283,66 @@ const ArticleList = () => {
         onCancel={handleModalCancel}
         footer={null}
         width={800}
+        confirmLoading={submitLoading}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleUpdate}
-        >
-          <Form.Item
-            label="文章标题"
-            name="title"
-            rules={[
-              { required: true, message: '请输入文章标题' },
-              { max: 100, message: '标题不能超过100个字符' },
-            ]}
+        <Spin spinning={submitLoading}>
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={handleUpdate}
           >
-            <Input placeholder="请输入文章标题" />
-          </Form.Item>
+            <Form.Item
+              label="文章标题"
+              name="title"
+              rules={[
+                { required: true, message: '请输入文章标题' },
+                { max: 100, message: '标题不能超过100个字符' },
+              ]}
+            >
+              <Input placeholder="请输入文章标题" />
+            </Form.Item>
 
-          <Form.Item
-            label="文章分类"
-            name="category"
-            rules={[{ required: true, message: '请选择文章分类' }]}
-          >
-            <Select
-              placeholder="请选择文章分类"
-              options={categories}
-            />
-          </Form.Item>
+            <Form.Item
+              label="文章分类"
+              name="category"
+              rules={[{ required: true, message: '请选择文章分类' }]}
+            >
+              <Select
+                placeholder="请选择文章分类"
+                options={categories}
+              />
+            </Form.Item>
 
-          <Form.Item
-            label="文章内容"
-            name="content"
-            rules={[
-              { required: true, message: '请输入文章内容' },
-              {
-                validator: (_, value) => {
-                  if (!value || value === '<p></p>' || value === '') {
-                    return Promise.reject(new Error('请输入文章内容'));
-                  }
-                  return Promise.resolve();
+            <Form.Item
+              label="文章内容"
+              name="content"
+              rules={[
+                { required: true, message: '请输入文章内容' },
+                {
+                  validator: (_, value) => {
+                    if (!value || value === '<p></p>' || value === '') {
+                      return Promise.reject(new Error('请输入文章内容'));
+                    }
+                    return Promise.resolve();
+                  },
                 },
-              },
-            ]}
-          >
-            <RichTextEditor placeholder="请输入文章内容..." />
-          </Form.Item>
+              ]}
+            >
+              <RichTextEditor placeholder="请输入文章内容..." />
+            </Form.Item>
 
-          <Form.Item>
-            <Space>
-              <Button type="primary" htmlType="submit">
-                保存
-              </Button>
-              <Button onClick={handleModalCancel}>
-                取消
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
+            <Form.Item>
+              <Space>
+                <Button type="primary" htmlType="submit" loading={submitLoading}>
+                  保存
+                </Button>
+                <Button onClick={handleModalCancel} disabled={submitLoading}>
+                  取消
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+        </Spin>
       </Modal>
     </div>
   );

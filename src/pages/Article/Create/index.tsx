@@ -1,5 +1,6 @@
 import { Form, Input, Select, Button, Card, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import RichTextEditor from '@/components/RichTextEditor';
 import { createArticle } from '@/api/article';
 
@@ -14,6 +15,7 @@ interface ArticleFormValues {
 const ArticleCreate = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
 
   // 文章分类选项（可以根据实际情况从API获取）
   const categories = [
@@ -24,6 +26,7 @@ const ArticleCreate = () => {
   ];
 
   const handleSubmit = async (values: ArticleFormValues) => {
+    setLoading(true);
     try {
       console.log('提交的文章数据:', values);
 
@@ -37,6 +40,8 @@ const ArticleCreate = () => {
     } catch (error) {
       console.error('创建文章失败:', error);
       message.error('创建文章失败，请重试');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,7 +51,7 @@ const ArticleCreate = () => {
 
   return (
     <div className="p-6">
-      <Card title="创建文章" bordered={false}>
+      <Card title="创建文章" variant="borderless">
         <Form
           form={form}
           layout="vertical"
@@ -100,10 +105,10 @@ const ArticleCreate = () => {
           {/* 按钮组 */}
           <Form.Item>
             <div className="flex gap-4">
-              <Button type="primary" htmlType="submit" size="large">
+              <Button type="primary" htmlType="submit" size="large" loading={loading}>
                 发布文章
               </Button>
-              <Button size="large" onClick={handleCancel}>
+              <Button size="large" onClick={handleCancel} disabled={loading}>
                 取消
               </Button>
             </div>

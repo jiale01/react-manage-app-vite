@@ -1,6 +1,16 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useEffect } from 'react';
+import { 
+  BoldOutlined, 
+  ItalicOutlined, 
+  StrikethroughOutlined,
+  FormatPainterOutlined,
+  OrderedListOutlined,
+  UnorderedListOutlined,
+  UndoOutlined,
+  RedoOutlined
+} from '@ant-design/icons';
 import './RichTextEditor.scss';
 
 interface RichTextEditorProps {
@@ -43,70 +53,78 @@ const RichTextEditor = ({ value, onChange, placeholder }: RichTextEditorProps) =
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
-          className={`px-3 py-1 rounded ${editor.isActive('bold') ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          className={`p-2 rounded ${editor.isActive('bold') ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          title="粗体"
         >
-          粗体
+          <BoldOutlined />
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={`px-3 py-1 rounded ${editor.isActive('italic') ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          className={`p-2 rounded ${editor.isActive('italic') ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          title="斜体"
         >
-          斜体
+          <ItalicOutlined />
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleStrike().run()}
-          className={`px-3 py-1 rounded ${editor.isActive('strike') ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          className={`p-2 rounded ${editor.isActive('strike') ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          title="删除线"
         >
-          删除线
+          <StrikethroughOutlined />
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          className={`px-3 py-1 rounded ${editor.isActive('heading', { level: 1 }) ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          className={`p-2 rounded ${editor.isActive('heading', { level: 1 }) ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          title="标题1"
         >
-          H1
+          <FormatPainterOutlined /> H1
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={`px-3 py-1 rounded ${editor.isActive('heading', { level: 2 }) ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          className={`p-2 rounded ${editor.isActive('heading', { level: 2 }) ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          title="标题2"
         >
-          H2
+          <FormatPainterOutlined /> H2
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={`px-3 py-1 rounded ${editor.isActive('bulletList') ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          className={`p-2 rounded ${editor.isActive('bulletList') ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          title="无序列表"
         >
-          无序列表
+          <UnorderedListOutlined />
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={`px-3 py-1 rounded ${editor.isActive('orderedList') ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          className={`p-2 rounded ${editor.isActive('orderedList') ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'}`}
+          title="有序列表"
         >
-          有序列表
+          <OrderedListOutlined />
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().undo().run()}
-          className="px-3 py-1 rounded bg-white hover:bg-gray-200"
+          className="p-2 bg-white rounded hover:bg-gray-200"
           disabled={!editor.can().undo()}
+          title="撤销"
         >
-          撤销
+          <UndoOutlined />
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().redo().run()}
-          className="px-3 py-1 rounded bg-white hover:bg-gray-200"
+          className="p-2 bg-white rounded hover:bg-gray-200"
           disabled={!editor.can().redo()}
+          title="重做"
         >
-          重做
+          <RedoOutlined />
         </button>
       </div>
-      
       {/* 编辑器内容区域 */}
       <EditorContent editor={editor} />
     </div>
