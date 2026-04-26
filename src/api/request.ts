@@ -3,11 +3,8 @@ import router from "@/router";
 import { getToken, removeToken } from "@/utils/token";
 
 const request = axios.create({
-  // 开发环境使用相对路径,通过代理转发到后端
-  // 生产环境需要修改为实际的后端地址
-  baseURL: import.meta.env.MODE === 'production'
-    ? 'http://localhost:3000/api' // 生产环境的后端地址
-    : '/api', // 开发环境使用空字符串,走代理
+  // 从环境变量中读取 API 基础路径
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
   timeout: 5000
 });
 
