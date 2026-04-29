@@ -11,8 +11,7 @@ import { lazy, Suspense } from "react";
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const ArticleCreate = lazy(() => import("@/pages/Article/Create"));
 const ArticleList = lazy(() => import("@/pages/Article/List"));
-const FlowCreate = lazy(() => import("@/pages/Flow/Create"));
-const FlowList = lazy(() => import("@/pages/Flow/List"));
+const Flow = lazy(() => import("@/pages/Flow"));
 
 // 定义路由配置类型
 const routes: RouteObject[] = [
@@ -49,20 +48,7 @@ const routes: RouteObject[] = [
       },
       {
         path: "flow",
-        children: [
-          {
-            index: true,
-            element: <Suspense fallback={<div>Loading...</div>}><FlowList /></Suspense>,
-          },
-          {
-            path: "list",
-            element: <Suspense fallback={<div>Loading...</div>}><FlowList /></Suspense>,
-          },
-          {
-            path: "create",
-            element: <Suspense fallback={<div>Loading...</div>}><FlowCreate /></Suspense>,
-          },
-        ]
+        element: <Suspense fallback={<div>Loading...</div>}><Flow /></Suspense>,
       }
     ],
   },

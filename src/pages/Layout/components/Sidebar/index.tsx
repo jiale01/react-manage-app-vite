@@ -34,23 +34,11 @@ const Sidebar = () => {
 
       ]
     },
-    // 工作流管理
+    // 工作流
     {
       key: '/flow',
       icon: <FileTextOutlined />,
-      label: '工作流管理',
-      children: [
-        {
-          key: '/flow/create',
-          icon: <FileTextOutlined />,
-          label: '创建工作流',
-        },
-        {
-          key: '/flow/list',
-          icon: <FileTextOutlined />,
-          label: '工作流列表',
-        }
-      ]
+      label: '工作流',
     }
   ]
 

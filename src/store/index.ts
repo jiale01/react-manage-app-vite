@@ -1,9 +1,11 @@
 import userReducer from "./modules/user";
+import flowReducer from "./modules/flow";
 import { configureStore } from "@reduxjs/toolkit";
 
 const store = configureStore({
   reducer: {
     user: userReducer,
+    flow: flowReducer,
   },
 });
 
