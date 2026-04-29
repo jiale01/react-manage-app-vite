@@ -4,6 +4,7 @@ import { Input, Card } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateNodeData } from '@/store/modules/flow';
 import type { RootState } from '@/store';
+import classNames from 'classnames';
 
 // ==================== 开始节点 ====================
 interface StartNodeProps {
@@ -29,32 +30,42 @@ export const StartNode = memo(({ id, data, selected }: StartNodeProps & { select
 
   return (
     <Card
-      title="🚀 开始节点"
+      title={
+        <div className="flex items-center gap-2">
+          <span className="text-lg">🚀</span>
+          <span className="font-semibold text-gray-800">开始节点</span>
+        </div>
+      }
       size="small"
-      style={{
-        width: 250,
-        border: selected ? '3px solid #52c41a' : '2px solid #52c41a',
-        boxShadow: selected
-          ? '0 4px 12px rgba(82, 196, 26, 0.4)'
-          : '0 2px 8px rgba(82, 196, 26, 0.2)',
-        transition: 'all 0.3s ease',
-        transform: selected ? 'scale(1.02)' : 'scale(1)',
+      className={classNames(
+        'bg-white rounded-xl shadow-md transition-all duration-300 ease-in-out',
+        'hover:shadow-xl hover:-translate-y-1',
+        selected ? 'ring-4 ring-green-400 shadow-2xl scale-105' : 'border-2 border-green-500'
+      )}
+      styles={{
+        body: { padding: '16px' },
+        header: { 
+          borderBottom: '1px solid #f0f0f0',
+          paddingBottom: '12px'
+        }
       }}
     >
-      <div style={{ marginBottom: 8 }}>
-        <label style={{ fontSize: 12, color: '#666' }}>输出数据：</label>
+      <div className="space-y-3">
+        <label className="block text-xs font-medium text-gray-600">输出数据：</label>
+        <Input
+          placeholder="请输入数据..."
+          value={nodeData?.output || ''}
+          onChange={handleInputChange}
+          size="small"
+          className="transition-all duration-200 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400"
+        />
       </div>
-      <Input
-        placeholder="请输入数据..."
-        value={nodeData?.output || ''}
-        onChange={handleInputChange}
-        size="small"
-      />
+
       {/* 输出手柄 - 连接到下游节点 */}
       <Handle
         type="source"
         position={Position.Bottom}
-        style={{ background: '#52c41a' }}
+        className="!w-4 !h-4 !bg-green-500 !border-2 !border-white !shadow-md hover:!scale-125 transition-transform"
       />
     </Card>
   );
@@ -116,57 +127,72 @@ export const ProcessNode = memo(({ id, data, selected }: ProcessNodeProps & { se
 
   return (
     <Card
-      title="⚙️ 处理节点"
+      title={
+        <div className="flex items-center gap-2">
+          <span className="text-lg">⚙️</span>
+          <span className="font-semibold text-gray-800">处理节点</span>
+        </div>
+      }
       size="small"
-      style={{
-        width: 280,
-        border: selected ? '3px solid #1890ff' : '2px solid #1890ff',
-        boxShadow: selected
-          ? '0 4px 12px rgba(24, 144, 255, 0.4)'
-          : '0 2px 8px rgba(24, 144, 255, 0.2)',
-        transition: 'all 0.3s ease',
-        transform: selected ? 'scale(1.02)' : 'scale(1)',
+      className={classNames(
+        'bg-white rounded-xl shadow-md transition-all duration-300 ease-in-out',
+        'hover:shadow-xl hover:-translate-y-1',
+        selected ? 'ring-4 ring-blue-400 shadow-2xl scale-105' : 'border-2 border-blue-500'
+      )}
+      styles={{ 
+        body: { padding: '16px' },
+        header: { 
+          borderBottom: '1px solid #f0f0f0',
+          paddingBottom: '12px'
+        }
       }}
     >
-      {/* 显示接收到的上游数据 */}
-      <div style={{ marginBottom: 12, padding: 8, background: '#f0f5ff', borderRadius: 4 }}>
-        <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 4, color: '#1890ff' }}>
-          📥 接收到的数据：
-        </div>
-        {upstreamDataList.length > 0 ? (
-          upstreamDataList.map(item => (
-            <div key={item.nodeId} style={{ fontSize: 11, color: '#666', marginBottom: 2 }}>
-              • 来自 [{item.nodeId}]: {item.output}
+      <div className="space-y-3">
+        {/* 显示接收到的上游数据 */}
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-3 border border-blue-100">
+          <div className="text-xs font-semibold mb-2 text-blue-700 flex items-center gap-1">
+            <span>📥</span>
+            <span>接收到的数据：</span>
+          </div>
+          {upstreamDataList.length > 0 ? (
+            <div className="space-y-1">
+              {upstreamDataList.map(item => (
+                <div key={item.nodeId} className="text-xs text-gray-600 flex items-start gap-1">
+                  <span className="text-blue-500 mt-0.5">•</span>
+                  <span>来自 [{item.nodeId}]: <span className="font-medium text-gray-800">{item.output}</span></span>
+                </div>
+              ))}
             </div>
-          ))
-        ) : (
-          <div style={{ fontSize: 11, color: '#999' }}>暂无上游数据</div>
-        )}
-      </div>
+          ) : (
+            <div className="text-xs text-gray-400 italic">暂无上游数据</div>
+          )}
+        </div>
 
-      {/* 当前节点的输入框 */}
-      <div style={{ marginBottom: 8 }}>
-        <label style={{ fontSize: 12, color: '#666' }}>处理数据：</label>
+        {/* 当前节点的输入框 */}
+        <div className="space-y-2">
+          <label className="text-xs font-medium text-gray-600 block">处理数据：</label>
+          <Input
+            placeholder="输入处理内容..."
+            value={nodeData?.inputVal || ''}
+            onChange={handleInputChange}
+            size="small"
+            className="rounded-lg transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+          />
+        </div>
       </div>
-      <Input
-        placeholder="输入处理内容..."
-        value={nodeData?.inputVal || ''}
-        onChange={handleInputChange}
-        size="small"
-      />
 
       {/* 输入手柄 - 连接上游节点 */}
       <Handle
         type="target"
         position={Position.Top}
-        style={{ background: '#1890ff' }}
+        className="!w-4 !h-4 !bg-blue-500 !border-2 !border-white !shadow-md hover:!scale-125 transition-transform"
       />
 
       {/* 输出手柄 - 连接下游节点 */}
       <Handle
         type="source"
         position={Position.Bottom}
-        style={{ background: '#1890ff' }}
+        className="!w-4 !h-4 !bg-blue-500 !border-2 !border-white !shadow-md hover:!scale-125 transition-transform"
       />
     </Card>
   );
@@ -200,30 +226,42 @@ export const EndNode = memo(({ id, data, selected }: EndNodeProps & { selected?:
 
   return (
     <Card
-      title="✅ 结束节点"
+      title={
+        <div className="flex items-center gap-2">
+          <span className="text-lg">✅</span>
+          <span className="font-semibold text-gray-800">结束节点</span>
+        </div>
+      }
       size="small"
-      style={{
-        width: 250,
-        border: selected ? '3px solid #ff4d4f' : '2px solid #ff4d4f',
-        boxShadow: selected
-          ? '0 4px 12px rgba(255, 77, 79, 0.4)'
-          : '0 2px 8px rgba(255, 77, 79, 0.2)',
-        transition: 'all 0.3s ease',
-        transform: selected ? 'scale(1.02)' : 'scale(1)',
+      className={classNames(
+        'bg-white rounded-xl shadow-md transition-all duration-300 ease-in-out',
+        'hover:shadow-xl hover:-translate-y-1',
+        selected ? 'ring-4 ring-red-400 shadow-2xl scale-105' : 'border-2 border-red-500'
+      )}
+      styles={{ 
+        body: { padding: '16px' },
+        header: { 
+          borderBottom: '1px solid #f0f0f0',
+          paddingBottom: '12px'
+        }
       }}
     >
-      <div style={{ marginBottom: 8, padding: 8, background: '#fff1f0', borderRadius: 4 }}>
-        <div style={{ fontSize: 12, fontWeight: 'bold', marginBottom: 4, color: '#ff4d4f' }}>
-          📊 最终结果：
+      <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-lg p-3 border border-red-100">
+        <div className="text-xs font-semibold mb-2 text-red-700 flex items-center gap-1">
+          <span>📊</span>
+          <span>最终结果：</span>
         </div>
         {upstreamDataList.length > 0 ? (
-          upstreamDataList.map(item => (
-            <div key={item.nodeId} style={{ fontSize: 11, color: '#666', marginBottom: 2 }}>
-              • 来自 [{item.nodeId}]: {item.output}
-            </div>
-          ))
+          <div className="space-y-1">
+            {upstreamDataList.map(item => (
+              <div key={item.nodeId} className="text-xs text-gray-600 flex items-start gap-1">
+                <span className="text-red-500 mt-0.5">•</span>
+                <span>来自 [{item.nodeId}]: <span className="font-medium text-gray-800">{item.output}</span></span>
+              </div>
+            ))}
+          </div>
         ) : (
-          <div style={{ fontSize: 11, color: '#999' }}>等待数据...</div>
+          <div className="text-xs text-gray-400 italic">等待数据...</div>
         )}
       </div>
 
@@ -231,7 +269,7 @@ export const EndNode = memo(({ id, data, selected }: EndNodeProps & { selected?:
       <Handle
         type="target"
         position={Position.Top}
-        style={{ background: '#ff4d4f' }}
+        className="!w-4 !h-4 !bg-red-500 !border-2 !border-white !shadow-md hover:!scale-125 transition-transform"
       />
     </Card>
   );

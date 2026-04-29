@@ -20,6 +20,7 @@ import { Sidebar } from './Sidebar';
 import { nodeTypes } from './CustomNodes';
 import { useDispatch } from 'react-redux';
 import { clearAllNodeData } from '@/store/modules/flow';
+import classNames from 'classnames';
 
 // 生成唯一 ID
 let nodeId = 0;
@@ -157,39 +158,34 @@ const CreateFlow = () => {
   };
 
   return (
-    <div style={{ display: 'flex', height: 'calc(100vh - 120px)' }}>
+    <div className="flex h-[calc(100vh-120px)] bg-gray-50">
       {/* 左侧边栏 */}
       <Sidebar onDragStart={onDragStart} />
 
       {/* 右侧画布 */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div className="flex flex-col flex-1">
         {/* 工具栏 */}
-        <div style={{
-          padding: '12px 16px',
-          background: '#fff',
-          borderBottom: '1px solid #e8e8e8',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
+        <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 shadow-sm">
           <div>
-            <h2 style={{ margin: 0, fontSize: 18 }}>🎨 工作流编排</h2>
-            <p style={{ margin: '4px 0 0', fontSize: 12, color: '#999' }}>
+            <h2 className="m-0 text-xl font-semibold text-gray-800">🎨 工作流编排</h2>
+            <p className="mt-1 mb-0 text-xs text-gray-500">
               从左侧拖拽节点，连接后可实时查看数据流动
             </p>
           </div>
 
-          <Space>
+          <Space size="middle">
             <Button
               icon={<DeleteOutlined />}
               onClick={handleDeleteSelected}
               danger
+              className="transition-all duration-200 hover:shadow-md"
             >
               删除选中
             </Button>
             <Button
               icon={<ClearOutlined />}
               onClick={handleClearCanvas}
+              className="transition-all duration-200 hover:shadow-md"
             >
               清空画布
             </Button>
@@ -197,7 +193,7 @@ const CreateFlow = () => {
         </div>
 
         {/* React Flow 画布 */}
-        <div ref={reactFlowWrapper} style={{ flex: 1 }}>
+        <div ref={reactFlowWrapper} className="flex-1 bg-gradient-to-br from-gray-50 to-blue-50">
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -211,13 +207,22 @@ const CreateFlow = () => {
             fitView
             attributionPosition="bottom-right"
             selectNodesOnDrag={false}
+            className="rounded-lg"
           >
-            <Background />
-            <Controls />
+            <Background
+              color="#e5e7eb"
+              gap={20}
+              size={1}
+            />
+            <Controls
+              className="border border-gray-200 rounded-lg shadow-lg"
+            />
             <MiniMap
               nodeStrokeWidth={3}
               zoomable
               pannable
+              className="border border-gray-200 rounded-lg shadow-lg"
+              maskColor="rgba(0, 0, 0, 0.1)"
             />
           </ReactFlow>
         </div>
