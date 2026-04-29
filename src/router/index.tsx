@@ -11,6 +11,8 @@ import { lazy, Suspense } from "react";
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const ArticleCreate = lazy(() => import("@/pages/Article/Create"));
 const ArticleList = lazy(() => import("@/pages/Article/List"));
+const FlowCreate = lazy(() => import("@/pages/Flow/Create"));
+const FlowList = lazy(() => import("@/pages/Flow/List"));
 
 // 定义路由配置类型
 const routes: RouteObject[] = [
@@ -29,13 +31,39 @@ const routes: RouteObject[] = [
         element: <Suspense fallback={<div>Loading...</div>}><Dashboard /></Suspense>,
       },
       {
-        path: "/article/list",
-        element: <Suspense fallback={<div>Loading...</div>}><ArticleList /></Suspense>,
+        path: "article",
+        children: [
+          {
+            index: true,
+            element: <Suspense fallback={<div>Loading...</div>}><ArticleList /></Suspense>,
+          },
+          {
+            path: "list",
+            element: <Suspense fallback={<div>Loading...</div>}><ArticleList /></Suspense>,
+          },
+          {
+            path: "create",
+            element: <Suspense fallback={<div>Loading...</div>}><ArticleCreate /></Suspense>,
+          },
+        ],
       },
       {
-        path: "/article/create",
-        element: <Suspense fallback={<div>Loading...</div>}><ArticleCreate /></Suspense>,
-      },
+        path: "flow",
+        children: [
+          {
+            index: true,
+            element: <Suspense fallback={<div>Loading...</div>}><FlowList /></Suspense>,
+          },
+          {
+            path: "list",
+            element: <Suspense fallback={<div>Loading...</div>}><FlowList /></Suspense>,
+          },
+          {
+            path: "create",
+            element: <Suspense fallback={<div>Loading...</div>}><FlowCreate /></Suspense>,
+          },
+        ]
+      }
     ],
   },
   {
