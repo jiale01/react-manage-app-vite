@@ -47,8 +47,8 @@ const Register = () => {
   }
 
   return (
-    <div className="login">
-      <Card className="login-container">
+    <div className="register">
+      <Card className="register-container">
         {/* 注册表单 */}
         <Form
           validateTrigger="onBlur"
