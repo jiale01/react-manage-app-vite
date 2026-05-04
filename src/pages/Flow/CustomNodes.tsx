@@ -44,7 +44,7 @@ export const StartNode = memo(({ id, data, selected }: StartNodeProps & { select
       )}
       styles={{
         body: { padding: '16px' },
-        header: { 
+        header: {
           borderBottom: '1px solid #f0f0f0',
           paddingBottom: '12px'
         }
@@ -139,9 +139,9 @@ export const ProcessNode = memo(({ id, data, selected }: ProcessNodeProps & { se
         'hover:shadow-xl hover:-translate-y-1',
         selected ? 'ring-4 ring-blue-400 shadow-2xl scale-105' : 'border-2 border-blue-500'
       )}
-      styles={{ 
+      styles={{
         body: { padding: '16px' },
-        header: { 
+        header: {
           borderBottom: '1px solid #f0f0f0',
           paddingBottom: '12px'
         }
@@ -149,34 +149,34 @@ export const ProcessNode = memo(({ id, data, selected }: ProcessNodeProps & { se
     >
       <div className="space-y-3">
         {/* 显示接收到的上游数据 */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-3 border border-blue-100">
-          <div className="text-xs font-semibold mb-2 text-blue-700 flex items-center gap-1">
+        <div className="p-3 border border-blue-100 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
+          <div className="flex items-center gap-1 mb-2 text-xs font-semibold text-blue-700">
             <span>📥</span>
             <span>接收到的数据：</span>
           </div>
           {upstreamDataList.length > 0 ? (
             <div className="space-y-1">
               {upstreamDataList.map(item => (
-                <div key={item.nodeId} className="text-xs text-gray-600 flex items-start gap-1">
+                <div key={item.nodeId} className="flex items-start gap-1 text-xs text-gray-600">
                   <span className="text-blue-500 mt-0.5">•</span>
                   <span>来自 [{item.nodeId}]: <span className="font-medium text-gray-800">{item.output}</span></span>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-xs text-gray-400 italic">暂无上游数据</div>
+            <div className="text-xs italic text-gray-400">暂无上游数据</div>
           )}
         </div>
 
         {/* 当前节点的输入框 */}
         <div className="space-y-2">
-          <label className="text-xs font-medium text-gray-600 block">处理数据：</label>
+          <label className="block text-xs font-medium text-gray-600">处理数据：</label>
           <Input
             placeholder="输入处理内容..."
             value={nodeData?.inputVal || ''}
             onChange={handleInputChange}
             size="small"
-            className="rounded-lg transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+            className="transition-all duration-200 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
           />
         </div>
       </div>
@@ -238,30 +238,30 @@ export const EndNode = memo(({ id, data, selected }: EndNodeProps & { selected?:
         'hover:shadow-xl hover:-translate-y-1',
         selected ? 'ring-4 ring-red-400 shadow-2xl scale-105' : 'border-2 border-red-500'
       )}
-      styles={{ 
+      styles={{
         body: { padding: '16px' },
-        header: { 
+        header: {
           borderBottom: '1px solid #f0f0f0',
           paddingBottom: '12px'
         }
       }}
     >
-      <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-lg p-3 border border-red-100">
-        <div className="text-xs font-semibold mb-2 text-red-700 flex items-center gap-1">
+      <div className="p-3 border border-red-100 rounded-lg bg-gradient-to-br from-red-50 to-pink-50">
+        <div className="flex items-center gap-1 mb-2 text-xs font-semibold text-red-700">
           <span>📊</span>
           <span>最终结果：</span>
         </div>
         {upstreamDataList.length > 0 ? (
           <div className="space-y-1">
             {upstreamDataList.map(item => (
-              <div key={item.nodeId} className="text-xs text-gray-600 flex items-start gap-1">
+              <div key={item.nodeId} className="flex items-start gap-1 text-xs text-gray-600">
                 <span className="text-red-500 mt-0.5">•</span>
                 <span>来自 [{item.nodeId}]: <span className="font-medium text-gray-800">{item.output}</span></span>
               </div>
             ))}
           </div>
         ) : (
-          <div className="text-xs text-gray-400 italic">等待数据...</div>
+          <div className="text-xs italic text-gray-400">等待数据...</div>
         )}
       </div>
 
