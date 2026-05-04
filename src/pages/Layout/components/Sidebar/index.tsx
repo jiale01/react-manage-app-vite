@@ -2,6 +2,7 @@ import { Menu } from 'antd'
 import {
   DashboardOutlined,
   FileTextOutlined,
+  UserOutlined,
 } from '@ant-design/icons'
 import { useNavigate, useLocation } from 'react-router-dom'
 
@@ -32,6 +33,19 @@ const Sidebar = () => {
           label: '文章列表',
         },
 
+      ]
+    },
+    // 用户管理
+    {
+      key: '/user',
+      icon: <UserOutlined />,
+      label: '用户管理',
+      children: [
+        {
+          key: '/user/list',
+          icon: <UserOutlined />,
+          label: '用户列表',
+        },
       ]
     },
     // 工作流
