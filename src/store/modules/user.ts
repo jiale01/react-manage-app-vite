@@ -1,22 +1,41 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { Dispatch } from "@reduxjs/toolkit";
 import { getToken, cacheToken, removeToken } from "@/utils";
-import { loginApi, registerApi, type LoginFormData, type RegisterFormData, type ApiResponse, type LoginData } from "@/api/user";
+import { loginApi, registerApi, getUserInfoApi, type LoginFormData, type RegisterFormData, type ApiResponse, type LoginData } from "@/api/user";
+
+export interface UserInfo {
+  id: number;
+  username: string;
+  nickname: string;
+  avatar?: string;
+  email?: string;
+  phone?: string;
+  [key: string]: any;
+}
 
 export const userStore = createSlice({
   name: "user",
   initialState: {
     token: getToken() || '',
+    userInfo: null as UserInfo | null,
   },
   reducers: {
     setToken: (state, action) => {
       state.token = action.payload;
       cacheToken(action.payload);
     },
+    setUserInfo: (state, action) => {
+      state.userInfo = action.payload;
+    },
+    clearUserInfo: (state) => {
+      state.token = '';
+      state.userInfo = null;
+      removeToken();
+    },
   },
 });
 
-const { setToken } = userStore.actions;
+const { setToken, setUserInfo, clearUserInfo } = userStore.actions;
 
 const userReducer = userStore.reducer;
 
@@ -48,6 +67,26 @@ const fetchRegister = (registerForm: RegisterFormData) => {
   }
 };
 
-export { fetchLogin, fetchRegister, setToken };
+/**
+ * 获取用户信息
+ */
+const fetchUserInfo = () => {
+  return async (dispatch: Dispatch) => {
+    try {
+      // 调用获取用户信息 API
+      const response: ApiResponse<UserInfo> = await getUserInfoApi();
+      
+      // 将用户信息存储到 store
+      dispatch(setUserInfo(response.data));
+      
+      return response.data;
+    } catch (error) {
+      console.error('获取用户信息失败:', error);
+      throw error;
+    }
+  }
+};
+
+export { fetchLogin, fetchRegister, fetchUserInfo, setToken, setUserInfo, clearUserInfo };
 
 export default userReducer;

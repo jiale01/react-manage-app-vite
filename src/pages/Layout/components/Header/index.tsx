@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Layout, Space, Avatar, Dropdown, Badge } from 'antd'
 import {
   BellOutlined,
@@ -7,10 +8,21 @@ import {
   UserOutlined,
 } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUserInfo, clearUserInfo } from '@/store/modules/user'
+import type { AppDispatch, RootState } from '@/store'
 
 const { Header: AntHeader } = Layout
 
 const Header = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  const { userInfo } = useSelector((state: RootState) => state.user)
+
+  // 组件挂载时获取用户信息
+  useEffect(() => {
+    dispatch(fetchUserInfo())
+  }, [dispatch])
+
   // 用户下拉菜单
   const userMenuItems: MenuProps['items'] = [
     {
@@ -31,6 +43,11 @@ const Header = () => {
       icon: <LogoutOutlined />,
       label: '退出登录',
       danger: true,
+      onClick: () => {
+        dispatch(clearUserInfo())
+        // 这里可以添加跳转到登录页的逻辑
+        window.location.href = '/login'
+      },
     },
   ]
 
@@ -71,9 +88,12 @@ const Header = () => {
             <Avatar
               size="small"
               icon={<UserOutlined />}
+              src={userInfo?.avatar}
               style={{ backgroundColor: '#1890ff' }}
             />
-            <span style={{ color: '#333', fontSize: 14 }}>Admin</span>
+            <span style={{ color: '#333', fontSize: 14 }}>
+              {userInfo?.nickname || userInfo?.username || 'Admin'}
+            </span>
           </Space>
         </Dropdown>
       </Space>

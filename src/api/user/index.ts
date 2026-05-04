@@ -40,3 +40,10 @@ export const loginApi = (loginForm: LoginFormData) => {
 export const registerApi = (registerForm: RegisterFormData) => {
   return request.post<ApiResponse<any>>('/api_v1/users/register', registerForm) as unknown as ApiResponse<any>;
 };
+
+/**
+ * 获取用户信息
+ */
+export const getUserInfoApi = () => {
+  return request.get<ApiResponse<any>>('/api_v1/users/profile') as unknown as ApiResponse<any>;
+};
