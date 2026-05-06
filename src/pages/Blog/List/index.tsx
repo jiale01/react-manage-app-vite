@@ -13,22 +13,22 @@ const CATEGORIES = [
   { label: '科技文章', value: 'science' },
 ];
 
-// 跑马轮播数据
+// 跑马轮播数据 - 使用风景背景图片
 const CAROUSEL_DATA = [
   {
     title: '探索、思考、分享 技术与生活',
     description: '欢迎来到我的个人博客，这里记录我在技术探索和生活感悟的点点滴滴。',
-    gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    image: 'https://picsum.photos/seed/tech1/1920/600',
   },
   {
     title: '技术驱动未来',
     description: '分享前端开发、后端架构、系统设计的最佳实践和创新技术。',
-    gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+    image: 'https://picsum.photos/seed/tech2/1920/600',
   },
   {
     title: '持续学习，持续成长',
     description: '每一次的技术探索都是对未知的挑战，让我们共同进步。',
-    gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    image: 'https://picsum.photos/seed/tech3/1920/600',
   },
 ];
 
@@ -114,18 +114,25 @@ const BlogList = () => {
       <div className="hero-carousel">
         <Carousel autoplay autoplaySpeed={4000} effect="fade">
           {CAROUSEL_DATA.map((item, index) => (
-            <div key={index} className="carousel-slide" style={{ background: item.gradient }}>
-              <div className="carousel-content">
-                <h1 className="carousel-title">{item.title}</h1>
-                <p className="carousel-description">{item.description}</p>
-                <Button 
-                  type="primary" 
-                  size="large"
-                  className="browse-btn"
-                  onClick={() => document.getElementById('articles-section')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  浏览文章
-                </Button>
+            <div key={index} className="carousel-slide" style={{ 
+              backgroundImage: `url(${item.image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}>
+              <div className="carousel-overlay">
+                <div className="carousel-content">
+                  <h1 className="carousel-title">{item.title}</h1>
+                  <p className="carousel-description">{item.description}</p>
+                  {/* <Button 
+                    type="primary" 
+                    size="large"
+                    className="browse-btn"
+                    onClick={() => document.getElementById('articles-section')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    浏览文章
+                  </Button> */}
+                </div>
               </div>
             </div>
           ))}
