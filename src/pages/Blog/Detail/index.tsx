@@ -1,27 +1,26 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Spin, Tag, Skeleton } from 'antd';
-import { 
-  ArrowLeftOutlined, 
-  ClockCircleOutlined, 
-  EyeOutlined, 
-  CalendarOutlined 
+import {
+  ArrowLeftOutlined,
+  ClockCircleOutlined,
+  EyeOutlined,
+  CalendarOutlined
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { getArticleDetail, type ArticleItem } from '@/api/article';
 import './index.scss';
 
-// 分类映射表（与列表页保持一致）
-const CATEGORY_MAP: Record<string, string> = {
-  'tech': '技术文章',
-  'science': '科技文章',
-  'life': '生活随笔',
-  'tutorial': '教程指南',
-  'news': '新闻资讯',
-};
+// 固定分类配置（与列表页保持一致）
+const CATEGORIES = [
+  { label: '全部', value: '' },
+  { label: '技术文章', value: 'tech' },
+  { label: '科技文章', value: 'science' },
+];
 
-const getCategoryLabel = (category: string): string => {
-  return CATEGORY_MAP[category] || category;
+const getCategoryLabel = (value: string) => {
+  const category = CATEGORIES.find(cat => cat.value === value);
+  return category ? category.label : value;
 };
 
 const BlogDetail = () => {
@@ -33,7 +32,7 @@ const BlogDetail = () => {
   // 获取文章详情
   const fetchArticleDetail = async () => {
     if (!id) return;
-    
+
     setLoading(true);
     try {
       const res = await getArticleDetail(Number(id));
@@ -59,7 +58,9 @@ const BlogDetail = () => {
   // 计算阅读时间
   const calculateReadTime = (content?: string) => {
     if (!content) return 5;
-    const words = content.length;
+    // 去除 HTML 标签，只计算纯文本字数
+    const plainText = content.replace(/<[^>]*>/g, '');
+    const words = plainText.length;
     return Math.ceil(words / 300);
   };
 
@@ -108,7 +109,7 @@ const BlogDetail = () => {
           {getCategoryLabel(article.category)}
         </Tag>
         <h1 className="article-title">{article.title}</h1>
-        
+
         <div className="article-meta">
           <span className="meta-item">
             <CalendarOutlined />
@@ -129,8 +130,8 @@ const BlogDetail = () => {
       <div className="divider" />
 
       {/* 文章内容 */}
-      <article className="article-content prose">
-        <div 
+      <article className="prose article-content">
+        <div
           className="prose-content"
           dangerouslySetInnerHTML={{ __html: article.content || '<p>暂无内容</p>' }}
         />

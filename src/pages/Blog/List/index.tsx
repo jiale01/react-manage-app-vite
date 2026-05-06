@@ -91,7 +91,9 @@ const BlogList = () => {
   // 计算阅读时间（假设每分钟阅读 300 字）
   const calculateReadTime = (content?: string) => {
     if (!content) return 5;
-    const words = content.length;
+    // 去除 HTML 标签，只计算纯文本字数
+    const plainText = content.replace(/<[^>]*>/g, '');
+    const words = plainText.length;
     return Math.ceil(words / 300);
   };
 
@@ -114,7 +116,7 @@ const BlogList = () => {
       <div className="hero-carousel">
         <Carousel autoplay autoplaySpeed={4000} effect="fade">
           {CAROUSEL_DATA.map((item, index) => (
-            <div key={index} className="carousel-slide" style={{ 
+            <div key={index} className="carousel-slide" style={{
               backgroundImage: `url(${item.image})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
@@ -144,7 +146,7 @@ const BlogList = () => {
         {/* 左侧文章列表 */}
         <div className="articles-section">
           <h2 className="section-title">最新文章</h2>
-          
+
           {/* 分类 Tab */}
           <div className="category-tabs">
             <Tabs
@@ -187,7 +189,7 @@ const BlogList = () => {
                         </span>
                         <span className="meta-item">
                           <ClockCircleOutlined />
-                          {calculateReadTime(article.summary)} 分钟
+                          {calculateReadTime(article.content)} 分钟
                         </span>
                       </div>
                     </div>
@@ -237,8 +239,8 @@ const BlogList = () => {
             </h3>
             <div className="hot-articles">
               {articles.slice(0, 5).map((article, index) => (
-                <div 
-                  key={article.id} 
+                <div
+                  key={article.id}
                   className="hot-article-item"
                   onClick={() => navigate(`/blog/${article.id}`)}
                 >
@@ -256,7 +258,7 @@ const BlogList = () => {
             </h3>
             <div className="tag-cloud">
               {CATEGORIES.map(cat => (
-                <Tag 
+                <Tag
                   key={cat.value}
                   color={cat.value === '' ? 'default' : 'blue'}
                   className="tag-item"
