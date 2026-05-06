@@ -317,42 +317,6 @@
 }
 
 // 热门文章
-
-// 日历组件
-:global {
-  .ant-picker-calendar-mini {
-    border: none;
-    
-    .ant-picker-calendar-header {
-      display: none;
-    }
-
-    .ant-picker-cell {
-      &.ant-picker-cell-selected {
-        .ant-picker-cell-inner {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-      }
-
-      &:hover .ant-picker-cell-inner {
-        background: rgba(102, 126, 234, 0.1);
-      }
-    }
-  }
-
-  .events {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-
-    li {
-      font-size: 12px;
-      margin-top: 4px;
-    }
-  }
-}
-
-// 热门文章
 .hot-articles {
   display: flex;
   flex-direction: column;

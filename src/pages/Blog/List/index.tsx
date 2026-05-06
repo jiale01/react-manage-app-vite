@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Tabs, Skeleton, Empty, Spin, Carousel, BackTop, Tag, Button } from 'antd';
+import { Tabs, Skeleton, Empty, Spin, Carousel, BackTop, Tag, Button, Badge } from 'antd';
 import { ClockCircleOutlined, EyeOutlined, TagsOutlined, ArrowRightOutlined, FireOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
@@ -106,12 +106,7 @@ const BlogList = () => {
       {/* 顶部导航 */}
       <div className="top-nav">
         <div className="nav-content">
-          <div className="logo">ZaneBlog</div>
-          <div className="nav-links">
-            <a href="#home">首页</a>
-            <a href="#articles">文章</a>
-            <a href="#about">关于我</a>
-          </div>
+          <div className="logo">MyBlog</div>
         </div>
       </div>
 
