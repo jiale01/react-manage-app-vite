@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Tabs, Skeleton, Empty, Spin } from 'antd';
-import { ClockCircleOutlined, EyeOutlined, TagsOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { Tabs, Skeleton, Empty, Spin, Carousel, BackTop, Tag, Button } from 'antd';
+import { ClockCircleOutlined, EyeOutlined, TagsOutlined, ArrowRightOutlined, FireOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { getArticleList, type ArticleItem } from '@/api/article';
@@ -11,6 +11,25 @@ const CATEGORIES = [
   { label: '全部', value: '' },
   { label: '技术文章', value: 'tech' },
   { label: '科技文章', value: 'science' },
+];
+
+// 跑马轮播数据
+const CAROUSEL_DATA = [
+  {
+    title: '探索、思考、分享 技术与生活',
+    description: '欢迎来到我的个人博客，这里记录我在技术探索和生活感悟的点点滴滴。',
+    gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+  },
+  {
+    title: '技术驱动未来',
+    description: '分享前端开发、后端架构、系统设计的最佳实践和创新技术。',
+    gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+  },
+  {
+    title: '持续学习，持续成长',
+    description: '每一次的技术探索都是对未知的挑战，让我们共同进步。',
+    gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+  },
 ];
 
 const BlogList = () => {
@@ -84,95 +103,180 @@ const BlogList = () => {
 
   return (
     <div className="blog-list-container">
-      {/* Hero 区域 */}
-      <div className="hero-section">
-        <h1 className="hero-title">记录技术与思考</h1>
-        <p className="hero-subtitle">分享前端开发、系统设计与生活感悟</p>
+      {/* 顶部导航 */}
+      <div className="top-nav">
+        <div className="nav-content">
+          <div className="logo">ZaneBlog</div>
+          <div className="nav-links">
+            <a href="#home">首页</a>
+            <a href="#articles">文章</a>
+            <a href="#about">关于我</a>
+          </div>
+        </div>
       </div>
 
-      {/* 分类 Tab */}
-      <div className="category-tabs">
-        <Tabs
-          activeKey={activeCategory}
-          onChange={handleCategoryChange}
-          items={CATEGORIES.map(cat => ({
-            key: cat.value,
-            label: cat.label,
-          }))}
-          className="custom-tabs"
-        />
-      </div>
-
-      {/* 文章列表 */}
-      <div className="article-list">
-        {articles.length === 0 && !loading ? (
-          <Empty description="暂无文章" />
-        ) : (
-          <>
-            {articles.map((article, index) => (
-              <article
-                key={article.id}
-                className="article-card"
-                style={{ animationDelay: `${index * 0.05}s` }}
-                onClick={() => navigate(`/blog/${article.id}`)}
-              >
-                <div className="article-content">
-                  <h2 className="article-title">{article.title}</h2>
-                  <p className="article-summary">
-                    {article.summary || '暂无摘要，点击查看详情...'}
-                  </p>
-                  <div className="article-meta">
-                    <span className="meta-item">
-                      <ClockCircleOutlined />
-                      {calculateReadTime(article.summary)} 分钟阅读
-                    </span>
-                    <span className="meta-item">
-                      <EyeOutlined />
-                      {article.views || 0} 次阅读
-                    </span>
-                    <span className="meta-item">
-                      <TagsOutlined />
-                      {getCategoryLabel(article.category)}
-                    </span>
-                    <span className="meta-item date">
-                      {formatTime(article.createdAt)}
-                    </span>
-                  </div>
-                </div>
-                <ArrowRightOutlined className="article-arrow" />
-              </article>
-            ))}
-
-            {/* 加载更多 */}
-            {hasMore && (
-              <div className="load-more">
-                <button
-                  className="load-more-btn"
-                  onClick={handleLoadMore}
-                  disabled={loading}
+      {/* 跑马轮播 */}
+      <div className="hero-carousel">
+        <Carousel autoplay autoplaySpeed={4000} effect="fade">
+          {CAROUSEL_DATA.map((item, index) => (
+            <div key={index} className="carousel-slide" style={{ background: item.gradient }}>
+              <div className="carousel-content">
+                <h1 className="carousel-title">{item.title}</h1>
+                <p className="carousel-description">{item.description}</p>
+                <Button 
+                  type="primary" 
+                  size="large"
+                  className="browse-btn"
+                  onClick={() => document.getElementById('articles-section')?.scrollIntoView({ behavior: 'smooth' })}
                 >
-                  {loading ? <Spin size="small" /> : '加载更多'}
-                </button>
+                  浏览文章
+                </Button>
+              </div>
+            </div>
+          ))}
+        </Carousel>
+      </div>
+
+      {/* 主内容区 */}
+      <div className="main-content" id="articles-section">
+        {/* 左侧文章列表 */}
+        <div className="articles-section">
+          <h2 className="section-title">最新文章</h2>
+          
+          {/* 分类 Tab */}
+          <div className="category-tabs">
+            <Tabs
+              activeKey={activeCategory}
+              onChange={handleCategoryChange}
+              items={CATEGORIES.map(cat => ({
+                key: cat.value,
+                label: cat.label,
+              }))}
+              className="custom-tabs"
+            />
+          </div>
+
+          {/* 文章列表 */}
+          <div className="article-list">
+            {articles.length === 0 && !loading ? (
+              <Empty description="暂无文章" />
+            ) : (
+              <>
+                {articles.map((article, index) => (
+                  <article
+                    key={article.id}
+                    className="article-card"
+                    style={{ animationDelay: `${index * 0.05}s` }}
+                    onClick={() => navigate(`/blog/${article.id}`)}
+                  >
+                    <div className="article-content">
+                      <div className="article-header">
+                        <Tag color="blue" className="category-tag">{getCategoryLabel(article.category)}</Tag>
+                        <span className="article-date">{formatTime(article.createdAt)}</span>
+                      </div>
+                      <h2 className="article-title">{article.title}</h2>
+                      <p className="article-summary">
+                        {article.summary || '暂无摘要，点击查看详情...'}
+                      </p>
+                      <div className="article-meta">
+                        <span className="meta-item">
+                          <EyeOutlined />
+                          {article.views || 0}
+                        </span>
+                        <span className="meta-item">
+                          <ClockCircleOutlined />
+                          {calculateReadTime(article.summary)} 分钟
+                        </span>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+
+                {/* 加载更多 */}
+                {hasMore && (
+                  <div className="load-more">
+                    <Button
+                      type="default"
+                      size="large"
+                      onClick={handleLoadMore}
+                      loading={loading}
+                      className="load-more-btn"
+                    >
+                      {loading ? '加载中...' : '加载更多'}
+                    </Button>
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* 骨架屏 */}
+            {loading && articles.length === 0 && (
+              <div className="skeleton-list">
+                {[1, 2, 3].map(i => (
+                  <Skeleton
+                    key={i}
+                    active
+                    avatar={false}
+                    title={{ width: '60%' }}
+                    paragraph={{ rows: 2, width: ['100%', '80%'] }}
+                  />
+                ))}
               </div>
             )}
-          </>
-        )}
-
-        {/* 骨架屏 */}
-        {loading && articles.length === 0 && (
-          <div className="skeleton-list">
-            {[1, 2, 3].map(i => (
-              <Skeleton
-                key={i}
-                active
-                avatar={false}
-                title={{ width: '60%' }}
-                paragraph={{ rows: 2, width: ['100%', '80%'] }}
-              />
-            ))}
           </div>
-        )}
+        </div>
+
+        {/* 右侧边栏 */}
+        <div className="sidebar">
+          {/* 热门文章 */}
+          <div className="sidebar-card">
+            <h3 className="sidebar-title">
+              <FireOutlined /> 热门文章
+            </h3>
+            <div className="hot-articles">
+              {articles.slice(0, 5).map((article, index) => (
+                <div 
+                  key={article.id} 
+                  className="hot-article-item"
+                  onClick={() => navigate(`/blog/${article.id}`)}
+                >
+                  <span className="hot-rank">{index + 1}</span>
+                  <span className="hot-title">{article.title}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 标签云 */}
+          <div className="sidebar-card">
+            <h3 className="sidebar-title">
+              <TagsOutlined /> 标签云
+            </h3>
+            <div className="tag-cloud">
+              {CATEGORIES.map(cat => (
+                <Tag 
+                  key={cat.value}
+                  color={cat.value === '' ? 'default' : 'blue'}
+                  className="tag-item"
+                  onClick={() => handleCategoryChange(cat.value)}
+                >
+                  {cat.label}
+                </Tag>
+              ))}
+              <Tag color="green">React</Tag>
+              <Tag color="purple">Vue</Tag>
+              <Tag color="orange">Node.js</Tag>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* 回到顶部 */}
+      <BackTop>
+        <div className="back-top-btn">
+          <ArrowRightOutlined style={{ transform: 'rotate(-90deg)' }} />
+        </div>
+      </BackTop>
     </div>
   );
 };
