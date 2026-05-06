@@ -32,7 +32,6 @@ const UserList = () => {
         params.username = username;
       }
       const res = await getUserList(params);
-      // 根据实际API返回结构调整：res.data.list 和 res.data.total
       if (res && res.data) {
         setDataSource(res.data.list || []);
         setTotal(res.data.total || 0);

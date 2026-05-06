@@ -35,10 +35,9 @@ const ArticleList = () => {
 
   // 文章分类选项
   const categories = [
+    { label: '全部', value: '' },
     { label: '技术文章', value: 'tech' },
-    { label: '产品动态', value: 'product' },
-    { label: '行业资讯', value: 'industry' },
-    { label: '教程指南', value: 'tutorial' },
+    { label: '科技文章', value: 'science' },
   ];
 
   // 获取文章列表
@@ -168,9 +167,7 @@ const ArticleList = () => {
       render: (category: string) => {
         const categoryMap: Record<string, { color: string; text: string }> = {
           tech: { color: 'blue', text: '技术文章' },
-          product: { color: 'green', text: '产品动态' },
-          industry: { color: 'orange', text: '行业资讯' },
-          tutorial: { color: 'purple', text: '教程指南' },
+          science: { color: 'green', text: '科技文章' },
         };
         const config = categoryMap[category] || { color: 'default', text: category };
         return <Tag color={config.color}>{config.text}</Tag>;

@@ -17,12 +17,10 @@ const ArticleCreate = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  // 文章分类选项（可以根据实际情况从API获取）
+  // 文章分类选项(可以根据实际情况从API获取)
   const categories = [
     { label: '技术文章', value: 'tech' },
-    { label: '产品动态', value: 'product' },
-    { label: '行业资讯', value: 'industry' },
-    { label: '教程指南', value: 'tutorial' },
+    { label: '科技文章', value: 'science' },
   ];
 
   const handleSubmit = async (values: ArticleFormValues) => {
