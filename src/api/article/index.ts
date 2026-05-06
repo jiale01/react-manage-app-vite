@@ -6,6 +6,25 @@ export interface ArticleData {
   content: string;
 }
 
+export interface ArticleItem {
+  id: number;
+  title: string;
+  category: string;
+  summary?: string;
+  content?: string;
+  cover?: string;
+  author?: string;
+  readTime?: number;
+  views?: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ArticleListResponse {
+  data: ArticleItem[];
+  total: number;
+}
+
 /**
  * 创建文章
  */

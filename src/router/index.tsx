@@ -13,6 +13,8 @@ const ArticleCreate = lazy(() => import("@/pages/Article/Create"));
 const ArticleList = lazy(() => import("@/pages/Article/List"));
 const Flow = lazy(() => import("@/pages/Flow"));
 const UserList = lazy(() => import("@/pages/User/List"));
+const BlogList = lazy(() => import("@/pages/Blog/List"));
+const BlogDetail = lazy(() => import("@/pages/Blog/Detail"));
 
 // 定义路由配置类型
 const routes: RouteObject[] = [
@@ -65,6 +67,14 @@ const routes: RouteObject[] = [
         ],
       }
     ],
+  },
+  {
+    path: "/blog",
+    element: <Suspense fallback={<div className="flex items-center justify-center h-screen"><div className="animate-pulse text-gray-400">Loading...</div></div>}><BlogList /></Suspense>,
+  },
+  {
+    path: "/blog/:id",
+    element: <Suspense fallback={<div className="flex items-center justify-center h-screen"><div className="animate-pulse text-gray-400">Loading...</div></div>}><BlogDetail /></Suspense>,
   },
   {
     path: "/login",

@@ -1,0 +1,268 @@
+// 博客列表页样式 - 现代文档美学
+
+.blog-list-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  min-height: 100vh;
+}
+
+// Hero 区域
+.hero-section {
+  text-align: center;
+  margin-bottom: 64px;
+  animation: fadeInUp 0.6s ease-out;
+
+  .hero-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #000;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+}
+
+// 分类 Tab 定制
+.category-tabs {
+  margin-bottom: 48px;
+  border-bottom: 1px solid #f0f0f0;
+
+  :global {
+    .custom-tabs {
+      .ant-tabs-nav {
+        margin: 0;
+
+        &::before {
+          border-bottom: none;
+        }
+      }
+
+      .ant-tabs-tab {
+        padding: 16px 0;
+        margin: 0 32px 0 0;
+        font-size: 15px;
+        font-weight: 500;
+        color: #999;
+        letter-spacing: 0.02em;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+          color: #333;
+        }
+
+        &.ant-tabs-tab-active {
+          .ant-tabs-tab-btn {
+            color: #000;
+          }
+        }
+      }
+
+      .ant-tabs-ink-bar {
+        height: 2px;
+        background: #000;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    }
+  }
+}
+
+// 文章列表
+.article-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+// 文章卡片
+.article-card {
+  position: relative;
+  padding: 32px;
+  background: #fff;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+  animation: fadeInUp 0.5s ease-out backwards;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    border-color: #f0f0f0;
+
+    .article-title {
+      color: #1677ff;
+    }
+
+    .article-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .article-content {
+    padding-right: 40px;
+  }
+
+  .article-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #000;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+  }
+
+  .article-summary {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.8;
+    margin: 0 0 20px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #999;
+      font-weight: 400;
+
+      &.date {
+        margin-left: auto;
+      }
+
+      svg {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .article-arrow {
+    position: absolute;
+    right: 32px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-8px);
+    font-size: 20px;
+    color: #1677ff;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+// 加载更多按钮
+.load-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+
+  .load-more-btn {
+    padding: 12px 48px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #000;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover:not(:disabled) {
+      border-color: #000;
+      background: #fafafa;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// 骨架屏
+.skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  :global {
+    .ant-skeleton {
+      padding: 32px;
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #f0f0f0;
+    }
+  }
+}
+
+// 动画
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .blog-list-container {
+    padding: 48px 16px;
+  }
+
+  .hero-section {
+    margin-bottom: 48px;
+
+    .hero-title {
+      font-size: 36px;
+    }
+
+    .hero-subtitle {
+      font-size: 16px;
+    }
+  }
+
+  .article-card {
+    padding: 24px;
+
+    .article-title {
+      font-size: 20px;
+    }
+
+    .article-meta {
+      gap: 16px;
+
+      .meta-item.date {
+        margin-left: 0;
+      }
+    }
+
+    .article-arrow {
+      display: none;
+    }
+  }
+}

@@ -3,6 +3,7 @@ import {
   DashboardOutlined,
   FileTextOutlined,
   UserOutlined,
+  ReadOutlined,
 } from '@ant-design/icons'
 import { useNavigate, useLocation } from 'react-router-dom'
 
@@ -53,7 +54,13 @@ const Sidebar = () => {
       key: '/flow',
       icon: <FileTextOutlined />,
       label: '工作流',
-    }
+    },
+    // 博客展示（公开访问，不需要在侧边栏显示）
+    // {
+    //   key: '/blog',
+    //   icon: <ReadOutlined />,
+    //   label: '博客',
+    // }
   ]
 
   const handleClick = ({ key }: { key: string }) => {
