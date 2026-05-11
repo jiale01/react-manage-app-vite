@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Tabs, Skeleton, Empty, Spin, Carousel, BackTop, Tag, Button, Badge } from 'antd';
-import { ClockCircleOutlined, EyeOutlined, TagsOutlined, ArrowRightOutlined, FireOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, EyeOutlined, TagsOutlined, ArrowRightOutlined, FireOutlined, LikeOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { getArticleList, type ArticleItem } from '@/api/article';
+import { getBlogList, type BlogItem } from '@/api/blog';
 import './index.scss';
 
 // 固定分类配置
@@ -35,7 +35,7 @@ const CAROUSEL_DATA = [
 const BlogList = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [articles, setArticles] = useState<ArticleItem[]>([]);
+  const [articles, setArticles] = useState<BlogItem[]>([]);
   const [activeCategory, setActiveCategory] = useState('');
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -48,7 +48,7 @@ const BlogList = () => {
       if (category) {
         params.category = category;
       }
-      const res = await getArticleList(params);
+      const res = await getBlogList(params);
       if (res && res.data) {
         const newList = res.data.data || [];
         if (reset) {
@@ -108,7 +108,7 @@ const BlogList = () => {
       {/* 顶部导航 */}
       <div className="top-nav">
         <div className="nav-content">
-          <div className="logo">MyBlog</div>
+          <div className="logo">ZaneBlog</div>
         </div>
       </div>
 
@@ -186,6 +186,10 @@ const BlogList = () => {
                         <span className="meta-item">
                           <EyeOutlined />
                           {article.views || 0}
+                        </span>
+                        <span className="meta-item">
+                          <LikeOutlined />
+                          {article.likes || 0}
                         </span>
                         <span className="meta-item">
                           <ClockCircleOutlined />

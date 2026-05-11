@@ -1,7 +1,7 @@
 // 博客详情页样式 - 现代文档美学
 
 .blog-detail-container {
-  max-width: 720px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 64px 24px 128px;
   min-height: 100vh;
@@ -63,6 +63,7 @@
     align-items: center;
     gap: 32px;
     flex-wrap: wrap;
+    margin-bottom: 24px;
 
     .meta-item {
       display: flex;
@@ -75,6 +76,25 @@
       svg {
         font-size: 15px;
       }
+    }
+  }
+
+  // 点赞按钮
+  .like-button {
+    margin-top: 24px;
+    padding: 8px 24px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(22, 119, 255, 0.3);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
     }
   }
 }
@@ -99,7 +119,12 @@
     font-weight: 400;
 
     // 标题样式
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       font-weight: 600;
       color: #000;
       margin-top: 48px;
@@ -157,7 +182,8 @@
     }
 
     // 列表
-    ul, ol {
+    ul,
+    ol {
       margin: 24px 0;
       padding-left: 32px;
 
@@ -198,6 +224,7 @@
       border-radius: 12px;
       overflow-x: auto;
       position: relative;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 
       // Mac 风格窗口装饰
       &::before {
@@ -209,27 +236,180 @@
         height: 12px;
         background: #ff5f56;
         border-radius: 50%;
-        box-shadow: 
+        box-shadow:
           20px 0 0 #ffbd2e,
           40px 0 0 #27c93f;
+        z-index: 1;
       }
 
       code {
         display: block;
         margin-top: 24px;
-        font-family: 'Fira Code', 'Consolas', monospace;
+        font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
         font-size: 14px;
         line-height: 1.6;
         color: #d4d4d4;
+        tab-size: 2;
+
+        // 确保语法高亮样式生效
+        .hljs-keyword,
+        .hljs-selector-tag,
+        .hljs-literal,
+        .hljs-section,
+        .hljs-link {
+          color: #569cd6;
+        }
+
+        .hljs-function .hljs-title,
+        .hljs-title {
+          color: #dcdcaa;
+        }
+
+        .hljs-string,
+        .hljs-meta .hljs-meta-string,
+        .hljs-literal,
+        .hljs-doctag,
+        .hljs-regexp {
+          color: #ce9178;
+        }
+
+        .hljs-number,
+        .hljs-built_in,
+        .hljs-builtin-name {
+          color: #b5cea8;
+        }
+
+        .hljs-comment,
+        .hljs-quote {
+          color: #6a9955;
+          font-style: italic;
+        }
+
+        .hljs-params {
+          color: #9cdcfe;
+        }
+
+        .hljs-class .hljs-title,
+        .hljs-type {
+          color: #4ec9b0;
+        }
+
+        .hljs-variable,
+        .hljs-template-variable {
+          color: #9cdcfe;
+        }
+
+        .hljs-attr,
+        .hljs-attribute {
+          color: #9cdcfe;
+        }
+
+        .hljs-symbol,
+        .hljs-bullet,
+        .hljs-subst,
+        .hljs-meta,
+        .hljs-meta .hljs-keyword,
+        .hljs-selector-id,
+        .hljs-selector-class,
+        .hljs-selector-attr,
+        .hljs-selector-pseudo {
+          color: #d7ba7d;
+        }
+
+        .hljs-addition {
+          color: #7ec699;
+          background-color: #283828;
+        }
+
+        .hljs-deletion {
+          color: #e06c75;
+          background-color: #3d2828;
+        }
+
+        .hljs-emphasis {
+          font-style: italic;
+        }
+
+        .hljs-strong {
+          font-weight: bold;
+        }
+      }
+
+      // 复制按钮
+      .copy-code-btn {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        padding: 6px 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        color: #999;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+          border-color: rgba(255, 255, 255, 0.3);
+          color: #fff;
+          transform: scale(1.05);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+
+        svg {
+          display: block;
+        }
+      }
+
+      // 语言标签
+      code[data-language]::before {
+        content: attr(data-language);
+        position: absolute;
+        top: 12px;
+        right: 60px;
+        padding: 4px 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    // 自定义滚动条样式
+    pre::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    pre::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+
+    pre::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.3);
       }
     }
 
     // 行内代码
     code {
       padding: 2px 6px;
-      background: #f5f5f5;
       border-radius: 4px;
-      font-family: 'Fira Code', 'Consolas', monospace;
+      font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
       font-size: 0.9em;
       color: #e83e8c;
     }
@@ -366,6 +546,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -408,9 +589,37 @@
 
     pre {
       padding: 16px;
+      margin: 24px -16px; // 延伸到屏幕边缘，提供更好的横向滚动空间
+      border-radius: 0; // 移动端移除圆角
+
+      &::before {
+        top: 12px;
+        left: 12px;
+        width: 10px;
+        height: 10px;
+        box-shadow:
+          16px 0 0 #ffbd2e,
+          32px 0 0 #27c93f;
+      }
 
       code {
         font-size: 13px;
+        margin-top: 20px;
+      }
+
+      // 移动端调整复制按钮位置
+      .copy-code-btn {
+        top: 8px;
+        right: 8px;
+        padding: 4px 8px;
+      }
+
+      // 移动端调整语言标签位置
+      code[data-language]::before {
+        top: 8px;
+        right: 50px;
+        padding: 2px 8px;
+        font-size: 11px;
       }
     }
   }

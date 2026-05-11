@@ -1,9 +1,9 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useEffect } from 'react';
-import { 
-  BoldOutlined, 
-  ItalicOutlined, 
+import {
+  BoldOutlined,
+  ItalicOutlined,
   StrikethroughOutlined,
   FormatPainterOutlined,
   OrderedListOutlined,
