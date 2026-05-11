@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import RichTextEditor from '@/components/RichTextEditor';
 import { getArticleList, deleteArticle, updateArticle, type ArticleData } from '@/api/article';
+import usePage from '@/hooks/usePage';
+import { ARTICLE_CATEGORIES, getCategoryLabel, getCategoryColor } from '@/config';
 
 const { TextArea } = Input;
 
@@ -19,26 +21,28 @@ const ArticleList = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState<ArticleItem[]>([]);
-  const [total, setTotal] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  
+
+  // 使用 usePage hook 管理分页
+  const {
+    currentPage,
+    pageSize,
+    total,
+    setCurrentPage,
+    setTotal,
+    handlePageChange,
+    resetPagination,
+    pagination
+  } = usePage();
+
   // 搜索相关状态
   const [searchTitle, setSearchTitle] = useState('');
   const [searchCategory, setSearchCategory] = useState<string | undefined>(undefined);
-  
+
   // 编辑弹窗相关状态
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<ArticleItem | null>(null);
   const [form] = Form.useForm();
   const [submitLoading, setSubmitLoading] = useState(false);
-
-  // 文章分类选项
-  const categories = [
-    { label: '全部', value: '' },
-    { label: '技术文章', value: 'tech' },
-    { label: '科技文章', value: 'science' },
-  ];
 
   // 获取文章列表
   const fetchArticleList = async (page = currentPage, size = pageSize, title = searchTitle, category = searchCategory) => {
@@ -68,12 +72,13 @@ const ArticleList = () => {
     fetchArticleList();
   }, []);
 
-  // 处理分页变化
-  const handleTableChange = (pagination: any) => {
-    setCurrentPage(pagination.current);
-    setPageSize(pagination.pageSize);
-    fetchArticleList(pagination.current, pagination.pageSize);
-  };
+  // 监听分页变化，自动重新查询数据
+  useEffect(() => {
+    // 跳过首次渲染（由上面的 useEffect 处理）
+    if (dataSource.length > 0 || total > 0) {
+      fetchArticleList(currentPage, pageSize, searchTitle, searchCategory);
+    }
+  }, [currentPage, pageSize]);
 
   // 处理搜索
   const handleSearch = () => {
@@ -85,7 +90,7 @@ const ArticleList = () => {
   const handleReset = () => {
     setSearchTitle('');
     setSearchCategory(undefined);
-    setCurrentPage(1);
+    resetPagination();
     fetchArticleList(1, pageSize, '', undefined);
   };
 
@@ -94,7 +99,7 @@ const ArticleList = () => {
     try {
       await deleteArticle(id);
       message.success('删除成功');
-      fetchArticleList();
+      fetchArticleList(currentPage, pageSize, searchTitle, searchCategory);
     } catch (error) {
       message.error('删除文章失败');
     }
@@ -165,12 +170,7 @@ const ArticleList = () => {
       key: 'category',
       width: 120,
       render: (category: string) => {
-        const categoryMap: Record<string, { color: string; text: string }> = {
-          tech: { color: 'blue', text: '技术文章' },
-          science: { color: 'green', text: '科技文章' },
-        };
-        const config = categoryMap[category] || { color: 'default', text: category };
-        return <Tag color={config.color}>{config.text}</Tag>;
+        return <Tag color={getCategoryColor(category)}>{getCategoryLabel(category)}</Tag>;
       },
     },
     {
@@ -236,7 +236,7 @@ const ArticleList = () => {
             onChange={(value) => setSearchCategory(value)}
             style={{ width: 180 }}
             allowClear
-            options={categories}
+            options={ARTICLE_CATEGORIES}
           />
           <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
             搜索
@@ -262,14 +262,8 @@ const ArticleList = () => {
         dataSource={dataSource}
         rowKey="id"
         loading={loading}
-        pagination={{
-          current: currentPage,
-          pageSize: pageSize,
-          total: total,
-          showSizeChanger: true,
-          showTotal: (total) => `共 ${total} 条`,
-        }}
-        onChange={handleTableChange}
+        pagination={pagination}
+        onChange={handlePageChange}
         scroll={{ x: 1000 }}
       />
 
@@ -306,7 +300,7 @@ const ArticleList = () => {
             >
               <Select
                 placeholder="请选择文章分类"
-                options={categories}
+                options={ARTICLE_CATEGORIES}
               />
             </Form.Item>
 

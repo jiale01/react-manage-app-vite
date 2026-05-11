@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import RichTextEditor from '@/components/RichTextEditor';
 import { createArticle } from '@/api/article';
+import { ARTICLE_CATEGORY_OPTIONS } from '@/config';
 
 const { TextArea } = Input;
 
@@ -16,12 +17,6 @@ const ArticleCreate = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-
-  // 文章分类选项(可以根据实际情况从API获取)
-  const categories = [
-    { label: '技术文章', value: 'tech' },
-    { label: '科技文章', value: 'science' },
-  ];
 
   const handleSubmit = async (values: ArticleFormValues) => {
     setLoading(true);
@@ -77,7 +72,7 @@ const ArticleCreate = () => {
             <Select
               placeholder="请选择文章分类"
               size="large"
-              options={categories}
+              options={ARTICLE_CATEGORY_OPTIONS}
             />
           </Form.Item>
 

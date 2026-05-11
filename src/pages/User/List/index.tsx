@@ -4,15 +4,25 @@ import type { ColumnsType } from 'antd/es/table';
 import { EditOutlined, DeleteOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { getUserList, deleteUser, updateUser, createUser,  type UserItem, type CreateUserDto, type UpdateUserDto } from '@/api/user';
+import usePage from '@/hooks/usePage';
 
 const { Password } = Input;
 
 const UserList = () => {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState<UserItem[]>([]);
-  const [total, setTotal] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  
+  // 使用 usePage hook 管理分页
+  const { 
+    currentPage, 
+    pageSize, 
+    total, 
+    setCurrentPage, 
+    setTotal, 
+    handlePageChange,
+    resetPagination,
+    pagination
+  } = usePage();
   
   // 搜索相关状态
   const [searchUsername, setSearchUsername] = useState('');
@@ -47,12 +57,13 @@ const UserList = () => {
     fetchUserList();
   }, []);
 
-  // 处理分页变化
-  const handleTableChange = (pagination: any) => {
-    setCurrentPage(pagination.current);
-    setPageSize(pagination.pageSize);
-    fetchUserList(pagination.current, pagination.pageSize, searchUsername);
-  };
+  // 监听分页变化，自动重新查询数据
+  useEffect(() => {
+    // 跳过首次渲染（由上面的 useEffect 处理）
+    if (dataSource.length > 0 || total > 0) {
+      fetchUserList(currentPage, pageSize, searchUsername);
+    }
+  }, [currentPage, pageSize]);
 
   // 处理搜索
   const handleSearch = () => {
@@ -63,7 +74,7 @@ const UserList = () => {
   // 处理重置搜索
   const handleReset = () => {
     setSearchUsername('');
-    setCurrentPage(1);
+    resetPagination();
     fetchUserList(1, pageSize, '');
   };
 
@@ -272,14 +283,8 @@ const UserList = () => {
         dataSource={dataSource}
         rowKey="id"
         loading={loading}
-        pagination={{
-          current: currentPage,
-          pageSize: pageSize,
-          total: total,
-          showSizeChanger: true,
-          showTotal: (total) => `共 ${total} 条`,
-        }}
-        onChange={handleTableChange}
+        pagination={pagination}
+        onChange={handlePageChange}
         scroll={{ x: 1200 }}
       />
 

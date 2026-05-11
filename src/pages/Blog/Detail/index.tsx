@@ -1,31 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Spin, Tag, Skeleton, Button, message } from 'antd';
+import { Tag, Skeleton, Button, message } from 'antd';
 import {
   ArrowLeftOutlined,
   ClockCircleOutlined,
   EyeOutlined,
   CalendarOutlined,
   LikeOutlined,
-  LikeFilled,
-  CopyOutlined
+  LikeFilled
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { getBlogDetail, likeBlog, type BlogItem } from '@/api/blog';
 import { highlightCodeBlocks, copyToClipboard } from '@/utils/codeHighlight';
+import { getCategoryLabel, getCategoryColor } from '@/config';
 import './index.scss';
-
-// 固定分类配置（与列表页保持一致）
-const CATEGORIES = [
-  { label: '全部', value: '' },
-  { label: '技术文章', value: 'tech' },
-  { label: '科技文章', value: 'science' },
-];
-
-const getCategoryLabel = (value: string) => {
-  const category = CATEGORIES.find(cat => cat.value === value);
-  return category ? category.label : value;
-};
 
 const BlogDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -168,7 +156,7 @@ const BlogDetail = () => {
 
       {/* 文章头部 */}
       <header className="article-header">
-        <Tag color="blue" className="category-tag">
+        <Tag color={getCategoryColor(article.category)} className="category-tag">
           {getCategoryLabel(article.category)}
         </Tag>
         <h1 className="article-title">{article.title}</h1>
