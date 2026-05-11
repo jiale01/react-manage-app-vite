@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { getBlogList, type BlogItem } from '@/api/blog';
 import { ARTICLE_CATEGORIES, getCategoryColor } from '@/config';
+import useTitle from '@/hooks/useTitle';
 import './index.scss';
 import Banner1 from '@/assets/blog/banner1.jpg';
 import Banner2 from '@/assets/blog/banner2.jpg';
@@ -37,6 +38,9 @@ const BlogList = () => {
   const [activeCategory, setActiveCategory] = useState('');
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+
+  // 设置页面标题
+  useTitle('Zane的个人技术博客');
 
   // 获取文章列表
   const fetchArticles = async (category = activeCategory, pageNum = page, reset = false) => {

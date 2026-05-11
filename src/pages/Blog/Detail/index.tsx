@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 import { getBlogDetail, likeBlog, type BlogItem } from '@/api/blog';
 import { highlightCodeBlocks, copyToClipboard } from '@/utils/codeHighlight';
 import { getCategoryLabel, getCategoryColor } from '@/config';
+import useTitle from '@/hooks/useTitle';
 import './index.scss';
 
 const BlogDetail = () => {
@@ -22,6 +23,15 @@ const BlogDetail = () => {
   const [article, setArticle] = useState<BlogItem | null>(null);
   const [liked, setLiked] = useState(false);
   const [highlightedContent, setHighlightedContent] = useState<string>('');
+
+  // 设置页面标题 - 根据文章标题动态显示
+  useEffect(() => {
+    if (article) {
+      document.title = `${article.title} - Zane的个人技术博客`;
+    } else {
+      document.title = 'Zane的个人技术博客';
+    }
+  }, [article]);
 
   // 获取文章详情
   const fetchArticleDetail = async () => {
