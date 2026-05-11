@@ -6,6 +6,7 @@ import {
   ReadOutlined,
 } from '@ant-design/icons'
 import { useNavigate, useLocation } from 'react-router-dom'
+import Logo from '@/assets/logo.svg'
 
 const Sidebar = () => {
   const navigate = useNavigate()
@@ -86,7 +87,7 @@ const Sidebar = () => {
         }}
       >
         <img
-          src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+          src={Logo}
           alt="logo"
           style={{ width: 32, height: 32, marginRight: 8 }}
         />
