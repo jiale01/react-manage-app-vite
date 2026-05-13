@@ -54,6 +54,17 @@
   }
 }
 
+// 确保下拉菜单不会超出视口
+:global {
+  .ant-dropdown {
+    max-width: calc(100vw - 32px);
+  }
+  
+  .ant-dropdown-menu {
+    max-width: 100%;
+  }
+}
+
 // 跑马轮播
 .hero-carousel {
   max-width: 1200px;
@@ -516,14 +527,225 @@
 
   .main-content {
     margin: 24px auto;
-    padding: 0 16px;
+    padding: 0 16px 60px 16px;
+    grid-template-columns: 1fr; // 改为单列布局
+    gap: 24px;
   }
 
-  .sidebar {
-    grid-template-columns: 1fr;
+  .articles-section {
+    .section-title {
+      font-size: 24px;
+    }
+  }
+
+  .category-tabs {
+    overflow-x: auto; // 允许横向滚动
+    
+    :global {
+      .custom-tabs {
+        .ant-tabs-nav {
+          overflow-x: auto;
+          white-space: nowrap;
+          
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        }
+
+        .ant-tabs-tab {
+          padding: 10px 0;
+          margin: 0 16px 0 0;
+          font-size: 14px;
+        }
+      }
+    }
   }
 
   .article-card {
     padding: 16px;
+    
+    .article-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      
+      .article-date {
+        font-size: 12px;
+      }
+    }
+    
+    .article-title {
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    
+    .article-summary {
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-line-clamp: 3; // 最多显示3行
+    }
+    
+    .article-meta {
+      flex-wrap: wrap;
+      gap: 12px;
+      
+      .meta-item {
+        font-size: 12px;
+        
+        svg {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  .sidebar {
+    grid-template-columns: 1fr;
+    order: -1; // 在移动端将侧边栏移到上方（可选）
+    
+    .sidebar-card {
+      padding: 16px;
+    }
+    
+    .profile-card {
+      .profile-header {
+        .profile-avatar {
+          width: 60px !important;
+          height: 60px !important;
+        }
+        
+        .profile-name {
+          font-size: 16px;
+        }
+        
+        .profile-bio {
+          font-size: 13px;
+        }
+      }
+      
+      .profile-links {
+        gap: 12px;
+        
+        .profile-link-item {
+          font-size: 13px;
+        }
+      }
+    }
+    
+    .sidebar-title {
+      font-size: 16px;
+    }
+    
+    .hot-articles {
+      .hot-article-item {
+        padding: 10px 0;
+        
+        .hot-rank {
+          width: 24px;
+          height: 24px;
+          font-size: 12px;
+        }
+        
+        .hot-title {
+          font-size: 13px;
+          -webkit-line-clamp: 2;
+        }
+      }
+    }
+    
+    .tag-cloud {
+      gap: 8px;
+      
+      .tag-item {
+        font-size: 12px;
+        padding: 2px 8px;
+      }
+    }
+  }
+
+  .load-more {
+    .load-more-btn {
+      width: 100%;
+    }
+  }
+}
+
+// 超小屏幕适配
+@media (max-width: 480px) {
+  .top-nav {
+    .nav-content {
+      height: 56px;
+    }
+    
+    .logo {
+      font-size: 18px;
+    }
+    
+    .user-menu-trigger {
+      padding: 4px 8px;
+      gap: 6px;
+      
+      .user-name {
+        font-size: 13px;
+      }
+    }
+  }
+
+  .hero-carousel {
+    margin: 12px;
+    
+    :global {
+      .ant-carousel .slick-slide {
+        height: 250px;
+      }
+    }
+
+    .carousel-slide {
+      height: 250px;
+      padding: 20px;
+    }
+
+    .carousel-title {
+      font-size: 22px;
+    }
+
+    .carousel-description {
+      font-size: 13px;
+      line-height: 1.6;
+    }
+  }
+
+  .main-content {
+    margin: 16px auto;
+    padding: 0 12px 50px 12px;
+  }
+
+  .articles-section {
+    .section-title {
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+  }
+
+  .article-card {
+    padding: 14px;
+    margin-bottom: 12px;
+    
+    .article-title {
+      font-size: 16px;
+      margin: 12px 0;
+    }
+    
+    .article-summary {
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+  }
+
+  .sidebar {
+    .sidebar-card {
+      padding: 14px;
+      margin-bottom: 12px;
+    }
   }
 }

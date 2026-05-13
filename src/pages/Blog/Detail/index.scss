@@ -552,75 +552,311 @@
   }
 }
 
-// 响应式设计
+// 平板端适配
 @media (max-width: 768px) {
   .blog-detail-container {
-    padding: 48px 16px 96px;
+    padding: 32px 16px 80px;
   }
 
   .back-button {
+    font-size: 13px;
+    padding: 6px 12px;
     margin-bottom: 32px;
+
+    svg {
+      font-size: 13px;
+    }
   }
 
   .article-header {
+    margin-bottom: 32px;
+
+    .category-tag {
+      font-size: 12px;
+      padding: 3px 10px;
+      margin-bottom: 16px;
+    }
+
     .article-title {
-      font-size: 32px;
+      font-size: 24px;
+      line-height: 1.4;
+      margin-bottom: 20px;
     }
 
     .article-meta {
-      gap: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+
+      .meta-item {
+        font-size: 13px;
+
+        svg {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .like-button {
+      width: 100%;
+      height: 40px;
+      font-size: 14px;
     }
   }
 
-  .article-content .prose-content {
-    font-size: 16px;
+  .divider {
+    margin: 24px 0;
+  }
 
-    h1 {
-      font-size: 28px;
-    }
+  .article-content {
+    .prose-content {
+      font-size: 15px;
+      line-height: 1.8;
 
-    h2 {
-      font-size: 24px;
-    }
-
-    h3 {
-      font-size: 20px;
-    }
-
-    pre {
-      padding: 16px;
-      margin: 24px -16px; // 延伸到屏幕边缘，提供更好的横向滚动空间
-      border-radius: 0; // 移动端移除圆角
-
-      &::before {
-        top: 12px;
-        left: 12px;
-        width: 10px;
-        height: 10px;
-        box-shadow:
-          16px 0 0 #ffbd2e,
-          32px 0 0 #27c93f;
+      h1 {
+        font-size: 24px;
+        margin-top: 32px;
+        margin-bottom: 16px;
       }
 
-      code {
+      h2 {
+        font-size: 20px;
+        margin-top: 28px;
+        margin-bottom: 14px;
+      }
+
+      h3 {
+        font-size: 18px;
+        margin-top: 24px;
+        margin-bottom: 12px;
+      }
+
+      p {
+        margin-bottom: 16px;
+      }
+
+      ul, ol {
+        padding-left: 20px;
+        margin-bottom: 16px;
+      }
+
+      blockquote {
+        padding: 12px 16px;
+        margin: 20px 0;
+        font-size: 14px;
+      }
+
+      img {
+        margin: 20px 0;
+        border-radius: 6px;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
         font-size: 13px;
+
+        th, td {
+          padding: 8px 12px;
+        }
+      }
+
+      pre {
+        margin: 20px -16px;
+        border-radius: 0;
+        padding: 16px;
+
+        code {
+          font-size: 12px;
+          line-height: 1.6;
+        }
+
+        .copy-code-btn {
+          top: 8px;
+          right: 8px;
+          padding: 4px 8px;
+
+          svg {
+            width: 14px;
+            height: 14px;
+          }
+        }
+
+        code[data-language]::before {
+          top: 8px;
+          right: 45px;
+          font-size: 10px;
+          padding: 2px 6px;
+        }
+      }
+
+      a {
+        word-break: break-all;
+      }
+    }
+  }
+
+  .article-footer {
+    margin-top: 48px;
+
+    .back-btn-large {
+      width: 100%;
+      justify-content: center;
+      padding: 12px 24px;
+      font-size: 14px;
+    }
+  }
+}
+
+// 手机端适配
+@media (max-width: 480px) {
+  .blog-detail-container {
+    padding: 24px 12px 60px;
+  }
+
+  .back-button {
+    font-size: 12px;
+    padding: 5px 10px;
+    margin-bottom: 24px;
+
+    span {
+      display: none; // 小屏幕上隐藏文字，只显示图标
+    }
+
+    svg {
+      font-size: 14px;
+    }
+  }
+
+  .article-header {
+    margin-bottom: 24px;
+
+    .category-tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      margin-bottom: 12px;
+    }
+
+    .article-title {
+      font-size: 20px;
+      line-height: 1.35;
+      margin-bottom: 16px;
+    }
+
+    .article-meta {
+      gap: 8px;
+      margin-bottom: 20px;
+
+      .meta-item {
+        font-size: 12px;
+
+        svg {
+          font-size: 13px;
+        }
+      }
+    }
+
+    .like-button {
+      height: 36px;
+      font-size: 13px;
+    }
+  }
+
+  .divider {
+    margin: 20px 0;
+  }
+
+  .article-content {
+    .prose-content {
+      font-size: 14px;
+      line-height: 1.75;
+
+      h1 {
+        font-size: 22px;
+        margin-top: 28px;
+        margin-bottom: 14px;
+      }
+
+      h2 {
+        font-size: 18px;
+        margin-top: 24px;
+        margin-bottom: 12px;
+      }
+
+      h3 {
+        font-size: 16px;
         margin-top: 20px;
+        margin-bottom: 10px;
       }
 
-      // 移动端调整复制按钮位置
-      .copy-code-btn {
-        top: 8px;
-        right: 8px;
-        padding: 4px 8px;
+      p {
+        margin-bottom: 14px;
       }
 
-      // 移动端调整语言标签位置
-      code[data-language]::before {
-        top: 8px;
-        right: 50px;
-        padding: 2px 8px;
-        font-size: 11px;
+      ul, ol {
+        padding-left: 18px;
+        margin-bottom: 14px;
+
+        li {
+          margin-bottom: 6px;
+        }
       }
+
+      blockquote {
+        padding: 10px 14px;
+        margin: 16px 0;
+        font-size: 13px;
+      }
+
+      img {
+        margin: 16px 0;
+      }
+
+      table {
+        font-size: 12px;
+
+        th, td {
+          padding: 6px 10px;
+        }
+      }
+
+      pre {
+        margin: 16px -12px;
+        padding: 14px;
+
+        code {
+          font-size: 11px;
+          line-height: 1.5;
+        }
+
+        .copy-code-btn {
+          top: 6px;
+          right: 6px;
+          padding: 3px 6px;
+
+          svg {
+            width: 12px;
+            height: 12px;
+          }
+        }
+
+        code[data-language]::before {
+          top: 6px;
+          right: 40px;
+          font-size: 9px;
+          padding: 1px 5px;
+        }
+      }
+    }
+  }
+
+  .article-footer {
+    margin-top: 40px;
+
+    .back-btn-large {
+      padding: 10px 20px;
+      font-size: 13px;
     }
   }
 }

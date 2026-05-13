@@ -139,7 +139,7 @@ const BlogList = () => {
     {
       key: 'github',
       label: (
-        <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/jiale01" target="_blank" rel="noopener noreferrer">
           <GithubOutlined style={{ marginRight: 8 }} />
           GitHub
         </a>
@@ -312,11 +312,11 @@ const BlogList = () => {
                 className="profile-avatar"
               />
               <h4 className="profile-name">Zane</h4>
-              <p className="profile-bio">前端开发者 | 技术分享者</p>
+              <p className="profile-bio">前端开发者 | 科技爱好者</p>
             </div>
             <div className="profile-links">
               <a
-                href="https://github.com/yourusername"
+                href="https://github.com/jiale01"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="profile-link-item"
@@ -325,7 +325,7 @@ const BlogList = () => {
                 <span>GitHub</span>
               </a>
               <a
-                href="https://yourblog.com"
+                href="http://47.109.130.69/blog"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="profile-link-item"
