@@ -39,6 +39,7 @@ const Login = () => {
   return (
     <div className="login">
       <Card className="login-container">
+        <div className="login-title">欢迎登录</div>
         {/* 登录表单 */}
         <Form validateTrigger="onBlur"
           onFinish={onFinsh}
@@ -73,12 +74,12 @@ const Login = () => {
               登录
             </Button>
           </Form.Item>
-          <Form.Item>
+          {/* <Form.Item>
             <div style={{ textAlign: 'center' }}>
               <span>还没有账号? </span>
               <Link to="/register">立即注册</Link>
             </div>
-          </Form.Item>
+          </Form.Item> */}
         </Form>
       </Card>
     </div>

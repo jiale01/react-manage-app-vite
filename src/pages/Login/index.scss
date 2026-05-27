@@ -39,6 +39,72 @@
       border: none;
       box-shadow: none;
     }
+
+    // 欢迎登录标题样式 - 炫酷版
+    .login-title {
+      font-size: 32px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+      letter-spacing: -1px;
+      line-height: 1.2;
+      position: relative;
+      
+      // 动态渐变文字效果 - 使用 Ant Design 主题色 #1677ff
+      background: linear-gradient(
+        135deg, 
+        #1677ff 0%, 
+        #4096ff 25%,
+        #69b1ff 50%,
+        #4096ff 75%,
+        #1677ff 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 3s ease infinite;
+      
+      // 发光效果 - 蓝色光晕
+      filter: drop-shadow(0 0 20px rgba(22, 119, 255, 0.4));
+      
+      // 装饰性下划线
+      &::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        margin: 12px auto 0;
+        background: linear-gradient(90deg, #1677ff, #4096ff);
+        border-radius: 2px;
+        animation: expandWidth 2s ease-in-out infinite alternate;
+      }
+    }
+    
+    // 渐变流动动画
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    
+    // 下划线扩展动画
+    @keyframes expandWidth {
+      from {
+        width: 40px;
+        opacity: 0.6;
+      }
+      to {
+        width: 80px;
+        opacity: 1;
+      }
+    }
   }
 
   .login-checkbox-label {
