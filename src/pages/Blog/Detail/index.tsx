@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Tag, Skeleton, Button, message } from 'antd';
 import {
@@ -10,8 +10,11 @@ import {
   LikeFilled
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
 import { getBlogDetail, likeBlog, type BlogItem } from '@/api/blog';
-import { highlightCodeBlocks, copyToClipboard } from '@/utils/codeHighlight';
+import { copyToClipboard } from '@/utils/codeHighlight';
 import { getCategoryLabel, getCategoryColor } from '@/config';
 import useTitle from '@/hooks/useTitle';
 import './index.scss';
@@ -22,16 +25,9 @@ const BlogDetail = () => {
   const [loading, setLoading] = useState(false);
   const [article, setArticle] = useState<BlogItem | null>(null);
   const [liked, setLiked] = useState(false);
-  const [highlightedContent, setHighlightedContent] = useState<string>('');
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  // 设置页面标题 - 根据文章标题动态显示
-  useEffect(() => {
-    if (article) {
-      document.title = `${article.title} - Zane的个人技术博客`;
-    } else {
-      document.title = 'Zane的个人技术博客';
-    }
-  }, [article]);
+  useTitle(article ? `${article.title} - Zane的个人技术博客` : 'Zane的个人技术博客');
 
   // 获取文章详情
   const fetchArticleDetail = async () => {
@@ -42,9 +38,6 @@ const BlogDetail = () => {
       const res = await getBlogDetail(Number(id));
       if (res && res.data) {
         setArticle(res.data);
-        // 处理代码高亮
-        const content = res.data.content || '<p>暂无内容</p>';
-        setHighlightedContent(highlightCodeBlocks(content));
       }
     } catch (error) {
       console.error('获取文章详情失败', error);
@@ -80,50 +73,51 @@ const BlogDetail = () => {
   // 计算阅读时间
   const calculateReadTime = (content?: string) => {
     if (!content) return 5;
-    // 去除 HTML 标签，只计算纯文本字数
-    const plainText = content.replace(/<[^>]*>/g, '');
-    const words = plainText.length;
+    const words = content.length;
     return Math.ceil(words / 300);
   };
 
-  // 复制代码块
-  const handleCopyCode = (codeBlock: HTMLElement) => {
-    const code = codeBlock.textContent || '';
+  // 点击复制代码
+  const handleCopyCode = (code: string) => {
     copyToClipboard(code).then((success) => {
-      if (success) {
-        message.success('代码已复制到剪贴板');
-      } else {
-        message.error('复制失败');
-      }
+      if (success) message.success('代码已复制到剪贴板');
+      else message.error('复制失败');
     });
   };
 
-  // 在内容渲染后添加复制按钮
-  useEffect(() => {
-    if (highlightedContent) {
-      setTimeout(() => {
-        const codeBlocks = document.querySelectorAll('.article-content pre');
-        codeBlocks.forEach((preBlock) => {
-          // 避免重复添加
-          if (preBlock.querySelector('.copy-code-btn')) return;
-          
-          const copyBtn = document.createElement('button');
-          copyBtn.className = 'copy-code-btn';
-          copyBtn.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
-          copyBtn.title = '复制代码';
-          
-          copyBtn.addEventListener('click', () => {
-            const codeElement = preBlock.querySelector('code');
-            if (codeElement) {
-              handleCopyCode(codeElement as HTMLElement);
-            }
-          });
-          
-          preBlock.appendChild(copyBtn);
-        });
-      }, 100);
-    }
-  }, [highlightedContent]);
+  // Markdown 自定义渲染组件
+  const MarkdownComponents = {
+    code: ({ className, children, ...props }: any) => {
+      const isInline = !className;
+      const codeRef = useRef<HTMLElement>(null);
+      const codeText = String(children).replace(/\n$/, '');
+
+      if (isInline) {
+        return <code className={className} {...props}>{children}</code>;
+      }
+
+      const match = /language-(\w+)/.exec(className || '');
+      const language = match ? match[1] : '';
+
+      return (
+        <div className="code-block-wrapper">
+          {language && <span className="code-lang-tag">{language.toUpperCase()}</span>}
+          <button
+            className="copy-code-btn"
+            onClick={() => handleCopyCode(codeText)}
+            title="复制代码"
+          >
+            <svg viewBox="0 0 24 24" width="16" height="16">
+              <path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+            </svg>
+          </button>
+          <pre className={className}>
+            <code ref={codeRef} className={className} {...props}>{children}</code>
+          </pre>
+        </div>
+      );
+    },
+  };
 
   if (loading) {
     return (
@@ -178,7 +172,7 @@ const BlogDetail = () => {
           </span>
           <span className="meta-item">
             <ClockCircleOutlined />
-            {calculateReadTime(article.summary || article.title)} 分钟阅读
+            {calculateReadTime(article.content)} 分钟阅读
           </span>
           <span className="meta-item">
             <EyeOutlined />
@@ -205,12 +199,17 @@ const BlogDetail = () => {
       {/* 分隔线 */}
       <div className="divider" />
 
-      {/* 文章内容 */}
-      <article className="prose article-content">
-        <div
-          className="prose-content"
-          dangerouslySetInnerHTML={{ __html: highlightedContent }}
-        />
+      {/* 文章内容 - Markdown 渲染 */}
+      <article className="prose article-content" ref={contentRef}>
+        <div className="prose-content">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeHighlight]}
+            components={MarkdownComponents}
+          >
+            {article.content || ''}
+          </ReactMarkdown>
+        </div>
       </article>
 
       {/* 底部分隔线 */}

@@ -217,92 +217,102 @@
     }
 
     // 代码块
-    pre {
-      margin: 32px 0;
-      padding: 24px;
-      background: #1e1e1e;
-      border-radius: 12px;
-      overflow-x: auto;
+    .code-block-wrapper {
       position: relative;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      margin: 32px 0;
+      border-radius: 8px;
+      background: #1e1e1e;
+      overflow: hidden;
 
-      // Mac 风格窗口装饰
-      &::before {
-        content: '';
-        position: absolute;
-        top: 16px;
-        left: 16px;
-        width: 12px;
-        height: 12px;
-        background: #ff5f56;
-        border-radius: 50%;
-        box-shadow:
-          20px 0 0 #ffbd2e,
-          40px 0 0 #27c93f;
-        z-index: 1;
+      // 语言标签
+      .code-lang-tag {
+        display: inline-block;
+        padding: 4px 12px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        user-select: none;
       }
 
-      code {
+      // 复制按钮
+      .copy-code-btn {
+        position: absolute;
+        top: 6px;
+        right: 8px;
+        padding: 4px 8px;
+        background: transparent;
+        border: none;
+        border-radius: 4px;
+        color: #666;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.2s ease;
+        opacity: 0;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+          color: #ccc;
+        }
+
+        svg {
+          display: block;
+        }
+      }
+
+      pre {
+        margin: 0;
+        padding: 16px 20px;
+        padding-top: 4px;
+        background: transparent;
+        overflow-x: auto;
+      }
+
+      pre code {
         display: block;
-        margin-top: 24px;
         font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
         font-size: 14px;
-        line-height: 1.6;
+        line-height: 1.7;
         color: #d4d4d4;
         tab-size: 2;
+        padding: 0;
+        background: none;
+        border-radius: 0;
 
-        // 确保语法高亮样式生效
+        // 语法高亮
         .hljs-keyword,
         .hljs-selector-tag,
         .hljs-literal,
         .hljs-section,
-        .hljs-link {
-          color: #569cd6;
-        }
+        .hljs-link { color: #569cd6; }
 
         .hljs-function .hljs-title,
-        .hljs-title {
-          color: #dcdcaa;
-        }
+        .hljs-title { color: #dcdcaa; }
 
         .hljs-string,
         .hljs-meta .hljs-meta-string,
-        .hljs-literal,
         .hljs-doctag,
-        .hljs-regexp {
-          color: #ce9178;
-        }
+        .hljs-regexp { color: #ce9178; }
 
         .hljs-number,
         .hljs-built_in,
-        .hljs-builtin-name {
-          color: #b5cea8;
-        }
+        .hljs-builtin-name { color: #b5cea8; }
 
         .hljs-comment,
-        .hljs-quote {
-          color: #6a9955;
-          font-style: italic;
-        }
+        .hljs-quote { color: #6a9955; font-style: italic; }
 
-        .hljs-params {
-          color: #9cdcfe;
-        }
+        .hljs-params { color: #9cdcfe; }
 
         .hljs-class .hljs-title,
-        .hljs-type {
-          color: #4ec9b0;
-        }
+        .hljs-type { color: #4ec9b0; }
 
         .hljs-variable,
-        .hljs-template-variable {
-          color: #9cdcfe;
-        }
-
+        .hljs-template-variable,
         .hljs-attr,
-        .hljs-attribute {
-          color: #9cdcfe;
-        }
+        .hljs-attribute { color: #9cdcfe; }
 
         .hljs-symbol,
         .hljs-bullet,
@@ -312,96 +322,34 @@
         .hljs-selector-id,
         .hljs-selector-class,
         .hljs-selector-attr,
-        .hljs-selector-pseudo {
-          color: #d7ba7d;
-        }
+        .hljs-selector-pseudo { color: #d7ba7d; }
 
-        .hljs-addition {
-          color: #7ec699;
-          background-color: #283828;
-        }
+        .hljs-addition { color: #7ec699; background-color: #283828; }
 
-        .hljs-deletion {
-          color: #e06c75;
-          background-color: #3d2828;
-        }
+        .hljs-deletion { color: #e06c75; background-color: #3d2828; }
 
-        .hljs-emphasis {
-          font-style: italic;
-        }
+        .hljs-emphasis { font-style: italic; }
 
-        .hljs-strong {
-          font-weight: bold;
-        }
+        .hljs-strong { font-weight: bold; }
       }
 
-      // 复制按钮
-      .copy-code-btn {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        padding: 6px 10px;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 6px;
-        color: #999;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2;
+      // 滚动条
+      pre::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+
+      pre::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      pre::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 3px;
 
         &:hover {
-          background: rgba(255, 255, 255, 0.2);
-          border-color: rgba(255, 255, 255, 0.3);
-          color: #fff;
-          transform: scale(1.05);
+          background: rgba(255, 255, 255, 0.25);
         }
-
-        &:active {
-          transform: scale(0.95);
-        }
-
-        svg {
-          display: block;
-        }
-      }
-
-      // 语言标签
-      code[data-language]::before {
-        content: attr(data-language);
-        position: absolute;
-        top: 12px;
-        right: 60px;
-        padding: 4px 12px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 500;
-        color: #999;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-    }
-
-    // 自定义滚动条样式
-    pre::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    pre::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 4px;
-    }
-
-    pre::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 4px;
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.3);
       }
     }
 
@@ -412,6 +360,7 @@
       font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
       font-size: 0.9em;
       color: #e83e8c;
+      background: #f5f5f5;
     }
 
     // 图片
@@ -662,20 +611,25 @@
         }
       }
 
-      pre {
+      .code-block-wrapper {
         margin: 20px -16px;
         border-radius: 0;
-        padding: 16px;
 
-        code {
+        pre {
+          border-radius: 0;
+          padding: 12px 16px;
+          padding-top: 2px;
+        }
+
+        pre code {
           font-size: 12px;
           line-height: 1.6;
         }
 
         .copy-code-btn {
-          top: 8px;
-          right: 8px;
-          padding: 4px 8px;
+          top: 6px;
+          right: 6px;
+          padding: 3px 6px;
 
           svg {
             width: 14px;
@@ -683,11 +637,9 @@
           }
         }
 
-        code[data-language]::before {
-          top: 8px;
-          right: 45px;
+        .code-lang-tag {
           font-size: 10px;
-          padding: 2px 6px;
+          padding: 2px 8px;
         }
       }
 
@@ -821,19 +773,25 @@
         }
       }
 
-      pre {
+      .code-block-wrapper {
         margin: 16px -12px;
-        padding: 14px;
+        border-radius: 0;
 
-        code {
+        pre {
+          border-radius: 0;
+          padding: 10px 14px;
+          padding-top: 2px;
+        }
+
+        pre code {
           font-size: 11px;
           line-height: 1.5;
         }
 
         .copy-code-btn {
-          top: 6px;
-          right: 6px;
-          padding: 3px 6px;
+          top: 4px;
+          right: 4px;
+          padding: 2px 5px;
 
           svg {
             width: 12px;
@@ -841,11 +799,9 @@
           }
         }
 
-        code[data-language]::before {
-          top: 6px;
-          right: 40px;
+        .code-lang-tag {
           font-size: 9px;
-          padding: 1px 5px;
+          padding: 1px 6px;
         }
       }
     }

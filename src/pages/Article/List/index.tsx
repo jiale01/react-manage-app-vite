@@ -311,7 +311,7 @@ const ArticleList = () => {
                 { required: true, message: '请输入文章内容' },
                 {
                   validator: (_, value) => {
-                    if (!value || value === '<p></p>' || value === '') {
+                    if (!value || value.trim() === '') {
                       return Promise.reject(new Error('请输入文章内容'));
                     }
                     return Promise.resolve();
