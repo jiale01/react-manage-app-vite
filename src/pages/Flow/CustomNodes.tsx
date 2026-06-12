@@ -65,7 +65,7 @@ export const StartNode = memo(({ id, data, selected }: StartNodeProps & { select
       <Handle
         type="source"
         position={Position.Bottom}
-        className="!w-4 !h-4 !bg-green-500 !border-2 !border-white !shadow-md hover:!scale-125 transition-transform"
+        className="!w-4 !h-4 !bg-green-500 !border-2 !border-white !shadow-md"
       />
     </Card>
   );
@@ -81,28 +81,12 @@ interface ProcessNodeProps {
 
 export const ProcessNode = memo(({ id, data, selected }: ProcessNodeProps & { selected?: boolean }) => {
   const dispatch = useDispatch();
-  // 使用 useReactFlow 获取当前的 edges（连线）和 nodes（节点）
   const { getEdges } = useReactFlow();
 
-  /**
-   * 【核心逻辑】获取上游节点的数据
-   * 
-   * 步骤说明：
-   * 1. 通过 getEdges() 获取所有连线
-   * 2. 过滤出指向当前节点的连线（target === id）
-   * 3. 提取这些连线的 source（上游节点 ID）
-   * 4. 使用 useSelector 订阅整个 nodeDataMap，然后从中提取上游节点数据
-   * 
-   * ⚠️ 重要：不能在 .map() 循环中调用 useSelector，这会违反 Hooks 规则
-   * 正确做法：一次性订阅整个 nodeDataMap，然后在渲染时提取需要的数据
-   */
-
-  // ✅ 正确做法：在顶层一次性订阅整个 nodeDataMap
   const allNodeData = useSelector((state: RootState) =>
     state.flow.nodeDataMap
   );
 
-  // 获取所有指向当前节点的连线
   const incomingEdges = getEdges().filter(edge => edge.target === id);
 
   // 提取上游节点 ID 列表
@@ -185,14 +169,14 @@ export const ProcessNode = memo(({ id, data, selected }: ProcessNodeProps & { se
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-4 !h-4 !bg-blue-500 !border-2 !border-white !shadow-md hover:!scale-125 transition-transform"
+        className="!w-4 !h-4 !bg-blue-500 !border-2 !border-white !shadow-md "
       />
 
       {/* 输出手柄 - 连接下游节点 */}
       <Handle
         type="source"
         position={Position.Bottom}
-        className="!w-4 !h-4 !bg-blue-500 !border-2 !border-white !shadow-md hover:!scale-125 transition-transform"
+        className="!w-4 !h-4 !bg-blue-500 !border-2 !border-white !shadow-md"
       />
     </Card>
   );
@@ -269,7 +253,7 @@ export const EndNode = memo(({ id, data, selected }: EndNodeProps & { selected?:
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-4 !h-4 !bg-red-500 !border-2 !border-white !shadow-md hover:!scale-125 transition-transform"
+        className="!w-4 !h-4 !bg-red-500 !border-2 !border-white !shadow-md"
       />
     </Card>
   );
