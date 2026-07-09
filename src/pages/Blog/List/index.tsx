@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { getBlogList, type BlogItem } from '@/api/blog';
 import { ARTICLE_CATEGORIES, getCategoryColor } from '@/config';
 import useTitle from '@/hooks/useTitle';
+import { createMarkdownSummary } from '@/utils/markdownSummary';
 import './index.scss';
 import Banner1 from '@/assets/blog/banner1.jpg';
 import Banner2 from '@/assets/blog/banner2.jpg';
@@ -247,7 +248,7 @@ const BlogList = () => {
                       </div>
                       <h2 className="article-title">{article.title}</h2>
                       <p className="article-summary">
-                        {getArticleSummary(article.content)}
+                        {createMarkdownSummary(article.content)}
                       </p>
                       <div className="article-meta">
                         <span className="meta-item">
