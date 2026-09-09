@@ -166,7 +166,7 @@ setEdges((eds) =>
 A: 检查是否正确使用了 `useSelector` 订阅上游节点数据，确保每个上游节点都有独立的 selector。
 
 ### Q: 拖拽节点时位置不准确？
-A: 确保 `onDrop` 中正确计算了相对于画布的坐标（减去 `getBoundingClientRect`）。
+A: 使用 React Flow 实例的 `screenToFlowPosition` 将鼠标屏幕坐标转换为画布坐标，避免缩放、平移或 `fitView` 后的位置偏移。
 
 ### Q: TypeScript 报错类型不匹配？
 A: 确保为 `useNodesState` 和 `useEdgesState` 显式指定泛型类型 `<Node>` 和 `<Edge>`。

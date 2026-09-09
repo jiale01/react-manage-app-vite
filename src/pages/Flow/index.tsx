@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   ReactFlow,
   Background,
@@ -12,6 +12,7 @@ import {
   type Edge,
   type Connection,
   type OnSelectionChangeParams,
+  type ReactFlowInstance,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { Button, Space, message } from 'antd';
@@ -20,7 +21,6 @@ import { Sidebar } from './Sidebar';
 import { nodeTypes } from './CustomNodes';
 import { useDispatch } from 'react-redux';
 import { clearAllNodeData } from '@/store/modules/flow';
-import classNames from 'classnames';
 
 // 生成唯一 ID
 let nodeId = 0;
@@ -28,7 +28,7 @@ const generateNodeId = (type: string) => `${type}-${++nodeId}`;
 
 const CreateFlow = () => {
   const dispatch = useDispatch();
-  const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance<Node, Edge> | null>(null);
 
   // 节点和连线的状态管理 - 显式指定泛型类型
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
@@ -53,18 +53,14 @@ const CreateFlow = () => {
 
       const type = event.dataTransfer.getData('application/reactflow');
 
-      if (!type || !reactFlowWrapper.current) {
+      if (!type || !reactFlowInstance) {
         return;
       }
 
-      // 获取画布的边界信息
-      const bounds = reactFlowWrapper.current.getBoundingClientRect();
-
-      // 计算相对于画布的坐标
-      const position = {
-        x: event.clientX - bounds.left,
-        y: event.clientY - bounds.top,
-      };
+      const position = reactFlowInstance.screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
 
       // 生成唯一节点 ID
       const newNodeId = generateNodeId(type);
@@ -82,7 +78,7 @@ const CreateFlow = () => {
 
       message.success(`已添加${getNodeLabel(type)}（ID: ${newNodeId}）`);
     },
-    [setNodes]
+    [reactFlowInstance, setNodes]
   );
 
   // 阻止默认拖拽行为
@@ -193,13 +189,14 @@ const CreateFlow = () => {
         </div>
 
         {/* React Flow 画布 */}
-        <div ref={reactFlowWrapper} className="flex-1 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div className="flex-1 bg-gradient-to-br from-gray-50 to-blue-50">
           <ReactFlow
             nodes={nodes}
             edges={edges}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
+            onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
             onSelectionChange={onSelectionChange}
